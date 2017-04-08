@@ -21,7 +21,7 @@ namespace Forum.Functionality
         IList<Category> GetCategories();
         #endregion
 
-        #region 2
+        #region post, category and tag
         Post GetPostById(int postid);
         int  GetPostIdBySlug(string slug);
         void AddNewPost(Post post);

@@ -22,9 +22,7 @@ namespace Forum.Models
         public DateTime JoinDate            { get; internal set; }
         public DateTime LastLoginDate       { get; internal set; }
         public bool     OnlineStatus        { get; set; }
-        //public DateTime EmailLinkDate       { get; internal set; }
-
-
+        
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
@@ -70,76 +68,7 @@ namespace Forum.Models
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
-            #region Mapping
-            /*
-             * base.OnModelCreating(modelBuilder);
-
-            //Post
-            //one-many post - postcategories
-            modelBuilder.Entity<Post>()
-               .HasMany(s => s.PostCategories)
-               .WithRequired(s => s.Post)
-               .HasForeignKey(s => s.PostId);
-
-            //one-many post - posttags
-            modelBuilder.Entity<Post>()
-               .HasMany(s => s.PostTags)
-               .WithRequired(s => s.Post)
-               .HasForeignKey(s => s.PostId);            
-
-            //one-many post - postcomments
-            modelBuilder.Entity<Post>()
-               .HasMany(s => s.Comments)
-               .WithRequired(s => s.Post)
-               .HasForeignKey(s => s.PostId);
-
-            //one-many post - postcommentReplies
-            modelBuilder.Entity<Post>()
-               .HasMany(s => s.Replies)
-               .WithRequired(s => s.Post)
-               .HasForeignKey(s => s.PostId);
-
-            //one-many post - postLikes
-            modelBuilder.Entity<Post>()
-               .HasMany(s => s.PostLikes)
-               .WithRequired(s => s.Post)
-               .HasForeignKey(s => s.PostId);
-
-            //Category
-            //one-many categories - postcategories
-            modelBuilder.Entity<Category>()
-               .HasMany(s => s.PostCategories)
-               .WithRequired(s => s.Category)
-               .HasForeignKey(s => s.CategoryId);
-
-            //Tag
-            //one-many tags - posttags
-            modelBuilder.Entity<Tag>()
-               .HasMany(s => s.PostTags)
-               .WithRequired(s => s.Tag)
-               .HasForeignKey(s => s.TagId);
-
-            //Commnets
-            //one-many comment - comment replies
-            modelBuilder.Entity<Comment>()
-               .HasMany(s => s.Replies)
-               .WithRequired(s => s.Comment)
-               .HasForeignKey(s => s.CommentId);
-
-            //one-many comment - comment likes
-            modelBuilder.Entity<Comment>()
-               .HasMany(s => s.CommentLikes)
-               .WithRequired(s => s.Comment)
-               .HasForeignKey(s => s.CommentId);
-
-            //one-many comment reply - comment reply likes
-            modelBuilder.Entity<Reply>()
-               .HasMany(s => s.ReplyLikes)
-               .WithRequired(s => s.Reply)
-               .HasForeignKey(s => s.ReplyId);
-               */
-            #endregion
+            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();            
         }
     }
 }

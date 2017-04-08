@@ -1,0 +1,140 @@
+﻿@model Forum.Models.ChangeUserDataViewModel
+@using Forum.Controllers
+
+@{
+    ViewBag.Title = "ChangeUserData";
+}
+
+@{
+    ViewBag.Country = ManageController.GetCountries();
+    if(Model.BirthDate == null)
+    {
+        ViewBag.BirthDate = "mm/dd/yyyy";
+    }
+    else
+    {
+        ViewBag.BirthDate = Model.BirthDate.Value.ToString("yyyy-MM-dd");
+    }
+}
+@*<script>  
+function myFunction() {
+    var val = document.getElementById("Gend");
+    val.options[val.selectedIndex].value;
+    return val;
+}
+document.getElementById("GendVal").value = myFunction();
+</script>*@
+
+<h2>ChangeUserData</h2>
+
+@using (Html.BeginForm("ChangeUserData", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div>
+        @Html.ValidationSummary(true, "")
+        <div class="form-group">
+            @Html.LabelFor(m => m.FirstName, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.LastName, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+            </div>
+        </div>
+
+        @*<div class="form-group">
+            @Html.LabelFor(m => m.Country, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Country, new { @class = "form-control" })
+            </div>
+        </div>*@
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.BirthDate, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.BirthDate, new { htmlAttributes = new { @class = "form-control", @Value = ViewBag.BirthDate } }) @*@Model.BirthDate.Value.ToString("yyyy-MM-dd")*@
+                @Html.ValidationMessageFor(model => model.BirthDate, "", new { @class = "text-danger"})               
+            </div>
+        </div>          
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Country, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">                              
+                <select class = "droplist" name="Country" id="Country">
+                @foreach (var country in ViewBag.Country)
+                {
+                    <option @if(Model.Country == country) { <text>selected</text>} value=@country>@country</option>                     
+                }                                  
+                </select>                
+
+                @*<select class="droplist" name="Country" id="Country">
+                    @foreach (SelectListItem country in ViewBag.Country)
+                    {
+                        <option @if (Model.Country == country.Text.ToString()) { <text> selected</text>} value=@country>@country</option>
+                    }
+                </select>*@
+                <input type="hidden" name="Country" id="Country" /> 
+            </div>
+        </div>
+        
+        <div class="form-group">
+            @Html.LabelFor(m => m.City, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.City, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+        @Html.LabelFor(m => m.Gender, new { @class = "col-md-2 control-label" })
+        @*<div class="col-md-10">
+            @Html.DropDownListFor(m => m.Gender, new SelectList(
+            new List<Object> {
+            new { value = "Male" , text = "Male" },
+            new { value = "Female" , text = "Female" },
+            new { value = "Trap" , text = "Trap" },
+            }, "value", "text", 3), new { @class = "droplist" })
+        </div>*@
+            <div class="col-md-10">                                          
+                <select class = "droplist" name="Gender" id="Gender">
+                    <option @if (Model.Gender == null) { <text> selected</text>} value=""></option>
+                    <option @if (Model.Gender == "Male")   { <text>selected</text>} value= "Male">Male</option>
+                    <option @if (Model.Gender == "Female") { <text>selected</text>} value= "Female">Female</option>
+                    <option @if (Model.Gender == "Trap")   { <text>selected</text>} value= "Trap">Trap</option>                 
+                 </select> 
+                <input type="hidden" name= "Gender" id="Gender"/>                              
+            </div>        
+         </div>
+
+        @*<div class="form-group">
+            @Html.LabelFor(m => m.Country, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Country, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.BirthDate, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.BirthDate, new { @class = "form-control" })
+            </div>
+        </div>*@
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.YourSelfDescription, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.YourSelfDescription, 5, 45, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}

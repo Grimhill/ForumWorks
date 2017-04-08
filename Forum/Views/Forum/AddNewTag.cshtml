@@ -1,0 +1,27 @@
+﻿@model Forum.Models.PostViewModel
+
+@{
+    ViewBag.Title = "AddNewTag";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using (Html.BeginForm("AddNewTag", "Forum", FormMethod.Post, new { role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <table class="newCatCont">
+        <tr>
+            <td>Name :</td>
+            <td><input class="newCatInp" type="text" name="tagName" /></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                @if (Model != null)
+                {
+                    <input type="hidden" value="@Model.Id" name="postid" />
+                }
+                else
+                { <input type="hidden" value=0 name="postid" />}
+                <input class="newCatBtn" type="submit" value="&#x27a5;" />
+            </td>
+        </tr>
+    </table>
+}

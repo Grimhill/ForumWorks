@@ -1,0 +1,45 @@
+﻿@model Forum.Models.CommentViewModel
+
+<div class="modal-body">
+    <div class="alert alert-warning">
+        <div class="delaccgrp">
+            <div class="delacclbl" style="text-align:center;">Are you sure?</div>
+        </div>
+        @using (Html.BeginForm("DeleteComment", "Forum", FormMethod.Post, new { @role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="delaccgrp">
+                <input type="hidden" value="@Model.Id" name="commentid" />
+                <input type="hidden" value=false name="deleteReplies" />
+                <input type="submit" value="Delete Comment" class="btn btn-default delaccbtn" />
+            </div>
+            @*</div>*@
+        }
+
+        @using (Html.BeginForm("DeleteComment", "Forum", FormMethod.Post, new { @role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="delaccgrp">
+                <input type="hidden" value="@Model.Id" name="commentid" />
+                <input type="hidden" value=true name="deleteReplies" />
+                <input type="submit" value="Delete Comment with all replies" class="btn btn-default delaccbtn" />
+            </div>
+        }
+    </div>
+    <div class="row">
+        &nbsp;
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">            
+            <button type="submit" id="approve-btn" class="btn btn-danger">Close</button>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $('#approve-btn').click(function () {
+            $('#modal-container').modal('hide');
+        });
+    });
+</script>

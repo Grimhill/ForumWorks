@@ -1,0 +1,153 @@
+﻿@using Microsoft.AspNet.Identity
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    <script src="~/Scripts/ckeditor/ckeditor.js"></script>
+    <script src="~/scripts/tinymce/tinymce.js"></script>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @RenderSection("Style", required: false)
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+
+    <style>
+        .modal-content {
+            width: 600px !important;
+            margin: 30px auto !important;
+        }
+    </style>
+</head>
+<body > <!--id = "back"-->
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <!--@Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })-->
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>                   
+                    <li>@Html.ActionLink("Forum", "Index", "Forum")</li>                    
+                    @if (User.IsInRole("Admin") || User.IsInRole("Moderator"))
+                    {
+                        <li>@Html.ActionLink("Admin Pannel", "Index", "Admin")</li>
+                    }
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer style="width:100%; align-content:center; text-align: center;">
+            <p>2016 - @DateTime.Now.Year &copy;Sad Forum</p>
+        </footer>
+    </div>  
+
+    <div id="modal-container" class="modal fade"
+         tabindex="-1" role="dialog">
+        <div class="modal-content">
+        </div>
+    </div>
+
+    @*bootstrap modal experiment*@
+    <script type="text/javascript">
+        $(function () {                       
+
+            $('#Modals,#Modals1').on('click', '.modal-link', function (e) {
+                e.preventDefault();                
+                $(this).attr('data-target', '#modal-container');
+                $(this).attr('data-toggle', 'modal');            
+            });
+
+            @*$('#Modals,#Modals1').mousedown(function (e) {
+                //e.preventDefault();
+                switch(e.which)
+                {
+                    case 1:
+                        //$('#Modals,#Modals1').on('click', '.modal-link', function (e) {
+                        //    e.preventDefault();
+
+                        //    $(this).attr('data-target', '#modal-container');
+                        //    $(this).attr('data-toggle', 'modal');
+                        //});
+                            
+                        //$(this).attr('data-target', '#modal-container');
+                        //$(this).attr('data-toggle', 'modal');
+                        $("#modal-container").modal("show");
+                        break
+                    case 2:
+                        //peredat Uzera routeValue ?
+                        window.open("@Url.Action("FullProfile", "Profile", new { Uzver = "Admin"})");
+                        break
+                }                
+            });*@
+
+            // Attach listener to .modal-close-btn's so that when the button is pressed the modal dialog disappears
+            $('body').on('click', '.modal-close-btn', function () {
+                $('#modal-container').modal('hide');
+            });
+            //clear modal cache, so that new content can be loaded
+            $('#modal-container').on('hidden.bs.modal', function () {
+                $(this).removeData('bs.modal');
+            });
+            $('#CancelModal').on('click', function () {
+                return false;
+            });
+        });
+
+    @*user online status experiment*@
+    </script>
+    @*<script type="text/javascript">
+        $(document).ready(function () {
+            var idleState = false;
+            var idleTimer = null;
+            $('*').bind('click mouseup mousedown keydown keypress keyup submit change mouseenter', function () {
+                clearTimeout(idleTimer);
+                if (idleState == true) {
+                    $("body").css('background-color', '#fff');
+                    $.ajax({
+                        type: 'POST',
+                        url: '@Url.Action("UpdateStatus", "Profile", new { UserName = User.Identity.GetUserName()})',
+                        data: {'status' : 'true'},
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (responce)
+                        {
+                            console.log(responce.responseText);
+                        },
+                        failure: function (response) {
+                            console.log(response.responseText);
+                        },
+                        error: function (response) {
+                            console.log(response.responseText);
+                        }
+                        })
+                    //$.post("@Url.Action("UpdateStatus", "Profile", new {UserName = User.Identity.GetUserName(), status = false })")
+                }
+                idleState = false;
+                //$.post("@Url.Action("UpdateStatus", "Profile", new {UserName = User.Identity.GetUserName(), status = true })")
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("UpdateStatus", "Profile", new { UserName = User.Identity.GetUserName()})',
+                    data: { 'status': 'false' }
+                })
+                idleTimer = setTimeout(function () {
+                    $("body").css('background-color','#000');
+                    idleState = true; }, 30000);
+            });
+            //$("body").trigger("mousemove");
+        });
+    </script>*@
+</body>
+</html>

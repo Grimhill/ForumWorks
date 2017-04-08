@@ -1,0 +1,26 @@
+﻿@model Forum.Models.CommentViewModel
+
+@{
+    ViewBag.Title = "EditComment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script type="text/javascript" src="~/Scripts/tinymce/TinyMCEInitFunction.js"></script>
+
+<div class="newComment">
+    @using (Html.BeginForm("EditComment", "Forum", FormMethod.Post, new { @class = "comTextdivParent", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        <textarea name="commentBody" id="editComment">@Model.Body</textarea>
+        <script>
+            $(document).ready(function () {
+                TinyMceEditConfig('editComment');
+            });
+        </script>
+        <div class="comTextSub">
+            <input name="commentid" value="@Model.Id" type="hidden" />
+            <input class="comTextBtn" type="submit" value="&#x27a5;" />
+        </div>
+    }
+</div>
+
+

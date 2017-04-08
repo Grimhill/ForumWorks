@@ -1,0 +1,28 @@
+﻿@model IEnumerable<Forum.Models.imagesviewmodel>
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+
+@foreach (var image in Model)
+{
+    <table>
+        <tr>
+            <td>Picture: </td>
+            <td>
+                <a href="#" class="returnImage" data-url="@Request.Url.GetLeftPart(UriPartial.Authority)@image.Url">
+                    <img src="@image.Url" alt="NotImage" id="#image" data-source="@image.Url" width="200" height="200" />
+                </a>
+            </td>
+        </tr>
+        <tr><td>Name and extension: </td><td style="text-align:center"><p>@image.Name</p></td></tr>
+        <tr><td>Upload date: </td><td style="text-align:center"><p>@image.Date</p> </td></tr>
+    </table>
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".returnImage").click("click", function (e) {
+            var urlImage = $(this).attr("data-url");
+            //This takes the data value and id of the editor and sends the data(i.e.,image url) back to the caller page
+            window.opener.updateValue("cke_72_textInput", urlImage);
+            window.close();
+        });
+    });
+</script>

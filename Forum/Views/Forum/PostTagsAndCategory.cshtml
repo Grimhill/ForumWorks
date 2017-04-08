@@ -1,0 +1,50 @@
+﻿@model Forum.Models.PostViewModel
+@using Forum.Controllers
+
+@{    
+    ForumController forumCtrl = new ForumController();
+}
+
+<div class="postCatandTagContainer">
+
+    <div class="postCategory">
+        <label>Category:&nbsp;</label>
+        @{
+            var postCats = forumCtrl.GetPostCategories(Model.Id);
+            int postcatnum = 0;
+            foreach (var cat in postCats)
+            {
+                postcatnum++;
+                <a href="#">
+                    <div class="postCatNames">
+                        @cat.Name@if (postcatnum < postCats.Count())
+                        {
+                            @Html.Raw(",&nbsp;")
+                        }
+                    </div>
+                </a>
+            }
+        }
+    </div>
+    <br />
+    <div class="postCategory">
+        <label>Tags:&nbsp;</label>
+        @{
+            var postTags = forumCtrl.GetPostTags(Model.Id);
+            int postTagsnum = 0;
+            foreach (var tag in postTags)
+            {
+                postTagsnum++;
+                <a href="#">
+                    <div class="postCatNames">
+                        @tag.Name@if (postTagsnum < postTags.Count())
+                        {
+                            @Html.Raw(",&nbsp;") //&nbsp; - no break space
+                        }
+                    </div>
+                </a>
+            }
+        }
+    </div>
+
+</div>

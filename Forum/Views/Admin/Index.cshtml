@@ -1,0 +1,14 @@
+﻿@model PagedList.IPagedList<Forum.Models.AdminUserViewModel>
+
+@{
+    ViewBag.Title = "Admin Control Panel";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<p class="text-success" style="text-align:center; color:green">@ViewBag.StatusMessage</p>
+<p class="text-error" style="text-align:center; color:red">@ViewBag.ErrorMessage</p>
+
+
+<div class="userview">
+    @{Html.RenderPartial("ShowUserDetails");}
+</div>
+

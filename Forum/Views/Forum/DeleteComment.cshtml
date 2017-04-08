@@ -1,0 +1,32 @@
+﻿@model Forum.Models.CommentViewModel
+
+@{
+    ViewBag.Title = "DeleteComment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="delacccont">
+    <div class="delaccgrp">
+        <div class="delacclbl" style="text-align:center;">Are you sure?</div>
+    </div>
+    @using (Html.BeginForm("DeleteComment", "Forum", FormMethod.Post, new { @role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+            <div class="delaccgrp">
+                <input type="hidden" value="@Model.Id" name="commentid" />
+                <input type="hidden" value=false name="deleteReplies" />
+                <input type="submit" value="Delete Comment" class="btn btn-default delaccbtn" />
+            </div>            
+
+    }
+
+    @using (Html.BeginForm("DeleteComment", "Forum", FormMethod.Post, new { @role = "form" }))
+    {
+        @Html.AntiForgeryToken()        
+        <div class="delaccgrp">
+            <input type="hidden" value="@Model.Id" name="commentid" />
+            <input type="hidden" value=true name="deleteReplies" />
+            <input type="submit" value="Delete Comment with all replies" class="btn btn-default delaccbtn" />
+        </div>       
+    }
+ </div>

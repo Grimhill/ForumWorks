@@ -1,0 +1,48 @@
+﻿@model Forum.Models.PostViewModel
+@using Forum.Controllers
+@{
+    ViewBag.Title = "Categories And Tags";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var categories = ForumController.checkCategoryList;
+    var tags       = ForumController.checkTagList;
+}
+
+@using (Html.BeginForm("RemoveCatAndTag", "Forum", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <table class="catsAndTags">
+        <tr>
+            <th>Categories</th>
+            <th>Tags</th>
+        </tr>
+        <tr>
+            <td><a href="@Url.Action("AddNewCategory", "Forum", new {postid = 0, callfrompost = false })" class="addremoveBtn" title="Add Category"><img src="@Url.Content("~/Content/images/post/add.png")" width="25" height="25" alt="add" style="float:left;" /><div style="float:left;margin-left:5px;">New Category</div></a></td>
+            <td><a href="@Url.Action("AddNewTag", "Forum", new {postid = 0, callfrompost = false })" class="addremoveBtn" title="Add Tag"><img src="@Url.Content("~/Content/images/post/add.png")" width="25" height="25" alt="add" style="float:left;" /><div style="float:left;margin-left:5px;">New Tag</div></a></td>
+        </tr>
+        <tr>
+            <td>
+                @foreach (var cat in categories)
+                {
+                    <div>
+                        <input type="checkbox" name="categoryNames" value="@cat.Category.Name" /> @cat.Category.Name
+                    </div>
+                }
+            </td>
+            <td>
+                @foreach (var tag in tags)
+                {
+                    <div>
+                        <input type="checkbox" name="tagNames" value="@tag.Tag.Name" /> @tag.Tag.Name
+                    </div>
+                }
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input class="indexFiltBtn1" type="submit" value="Remove" />
+            </td>
+        </tr>
+    </table>
+    <br />
+    <p class="text-success" style="text-align:center; color:red">@ViewBag.StatusMessage</p>
+}

@@ -1,0 +1,80 @@
+﻿@model Forum.Models.PostViewModel
+@using Forum.Controllers
+@using Microsoft.AspNet.Identity
+@{
+    ViewBag.Title = Model.Title;
+    ViewBag.Description = Model.Meta;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Scripts
+{
+    <script src="~/Scripts/view.js"></script>
+ <script type="text/javascript" src="~/Scripts/tinymce/TinyMCEInitFunction.js"></script>
+}
+
+
+<div id="postScroll">    
+    <div class="postContainer">
+        @if (User.IsInRole("Admin") || User.IsInRole("Moderator") || Model.Author == User.Identity.GetUserName())// || Model.Author == User.Identity.GetUserName()
+        {
+            <div class="postMenu">
+                <div class="postMenuSub">
+                    <a href="@Url.Action("EditPost","Forum",new {slug = Model.UrlSeo })" title="Edit"><img src="@Url.Content("~/Content/images/post/edit.png")" width="25" height="25" alt="edit" /></a>
+                    @if (User.IsInRole("Admin") || User.IsInRole("Moderator"))
+                    {
+                        <a href="@Url.Action("DeletePost", "Forum", new { postid = Model.Id })" title="Delete"><img src="@Url.Content("~/Content/images/post/delete.png")" width="25" height="25" alt="delete" /></a>
+                    }
+                </div>
+            </div>
+        }
+        @{Html.RenderPartial("PostTagsAndCategory");}
+        <div class="_postMenu" >
+            <div class="postAuthorAndDate" style="float:left">
+                <table>
+                    <tr>
+                        <td>Author: </td>
+                        <td id="Modals"><font size="3">
+                            @Html.ActionLink(Model.Author, "ViewProfile", "Profile", new { Uzver = Model.Author }, new { @id = "Modal", @class = "modal-link btn btn-success" })
+                            </font></td>
+                        <td>Date: </td>
+                        <td style="color: #5f80ff" colspan="2">@Model.PostedOn.ToShortDateString()</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="postEditorAndDate" style="float:right">
+                <table>
+                    <tr>
+                        <td>EditedBy: </td>
+                        <td id="Modals1"><font size="3">
+                            @Html.ActionLink(Model.PostModifedBy, "ViewProfile", "Profile", new { Uzver = Model.PostModifedBy }, new { @id = "Modal",  @class = "modal-link btn btn-success"})
+                            </font></td>
+                        <td>EditDate: </td>
+                        <td style="color: #5f80ff" colspan="2">@Model.Modified.Value.ToShortDateString()</td>
+                    </tr>
+                </table>
+            </div> 
+        </div>
+        <br />        
+        <br />
+        <br /> 
+        <br /> 
+        <br />      
+        <div class="postTitle"><h2>@Model.Title</h2></div>
+        <div class="addthis_sharing_toolbox"></div>
+        <div class="postVote" id="postVote">
+            <table>
+                <tr><td style="text-align:center; color:green; font-style:italic;">@Model.PostLikes</td></tr>
+                <tr><td><a href="@Url.Action("UpdatePostLike", "Forum", new { slug=Model.UrlSeo, postid = Model.Id, username = User.Identity.GetUserName(), likeordislike = "like", sortorder = ViewBag.CurrentSort })"><img src="@Url.Content("~/Content/images/post/upvote.png")" width="30" height="30" alt="upvote" /></a></td></tr>
+                <tr><td><a href="@Url.Action("UpdatePostLike", "Forum", new { slug=Model.UrlSeo, postid = Model.Id, username = User.Identity.GetUserName(), likeordislike = "dislike", sortorder = ViewBag.CurrentSort})"><img src="@Url.Content("~/Content/images/post/downvote.png")" width="30" height="30" alt="downvote" /></a></td></tr>
+                <tr><td style="text-align:center; color:#b50000; font-style:oblique;">@Model.PostDislikes</td></tr>
+            </table>
+        </div>
+
+        @{
+            ForumController blgCtrl = new ForumController();
+        }
+        <div class="postBody">@Html.Raw(Model.Body)</div>
+    </div>
+    @{Html.RenderPartial("Comments");}
+</div>

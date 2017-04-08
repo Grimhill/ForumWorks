@@ -1,0 +1,184 @@
+﻿@model Forum.Models.PostViewModel
+
+@{
+    ViewBag.Title = "EditPost";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<script type="text/javascript" src="~/Scripts/ckeditor/config.js"></script>
+<script type="text/javascript" src="~/scripts/tinymce/TineMCEInitDec.js"></script>
+
+@using (Html.BeginForm("EditPost", "Forum", FormMethod.Post, new { role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @if (User.IsInRole("Admin") || User.IsInRole("Moderator"))
+        {
+            <div class="form-group">
+                @Html.LabelFor(model => model.Id, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Id, new { @class = "editPostIdInp", @readonly = "readonly" })
+                </div>
+            </div>
+        }
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.UrlSeo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.UrlSeo, new { @class = "editPostIdInp", @readonly = "readonly" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+            </div>
+        </div>        
+
+        <div class="form-group">
+            @if (Model.PostCategories.Count() > 0)
+            {
+                if (Model.PostCategories.Count() == 1)
+                {
+                    @Html.Label("Category", htmlAttributes: new { @class = "control-label col-md-2" })
+                }
+                else
+                {
+                    @Html.Label("Categories", htmlAttributes: new { @class = "control-label col-md-2" })
+                }
+
+                <div class="col-md-10">
+                    <a href="@Url.Action("AddCategoryToPost", "Forum", new { postid = Model.Id})" class="addremoveBtn" title="Add Video"><img src="@Url.Content("~/Content/images/post/add.png")" width="25" height="25" alt="add" /></a>
+
+                    @foreach (var cat in Model.PostCategories)
+                    {
+                        <div class="editPostCatInp">
+                            <div class="catName">
+                                @cat.Name                            
+                                <a href="@Url.Action("RemoveCategoryFromPost", "Forum", new { postid = Model.Id,slug=Model.UrlSeo,catName=@cat.Name })" class="addremoveBtn" title="Add Video"><img src="@Url.Content("~/Content/images/post/remove.png")" width="25" height="25" alt="add" /></a>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                @Html.Label("Category", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <a href="@Url.Action("AddCategoryToPost", "Forum", new { postid = Model.Id})" class="addremoveBtn" title="Add Category"><img src="@Url.Content("~/Content/images/post/add.png")" width="25" height="25" alt="add" /></a>
+                </div>
+            }
+        </div>
+
+        <div class="form-group">
+            @if (Model.PostTags != null)
+            {
+                if (Model.PostTags.Count() == 1)
+                {
+                    @Html.Label("Tag", htmlAttributes: new { @class = "control-label col-md-2" })
+                }
+                else
+                {
+                    @Html.Label("Tags", htmlAttributes: new { @class = "control-label col-md-2" })
+                }
+
+                <div class="col-md-10">
+                    <a href="@Url.Action("AddTagToPost", "Forum", new { postid = Model.Id })" class="addremoveBtn" title="Add Video"><img src="@Url.Content("~/Content/images/post/add.png")" width="25" height="25" alt="add" /></a>
+
+                    @foreach (var tag in Model.PostTags)
+                    {
+                        <div class="editPostTagInp">
+                            <div class="tagName">
+                                @tag.Name
+                                <a href="@Url.Action("RemoveTagFromPost", "Forum", new { postid = Model.Id, slug = Model.UrlSeo, tagName = tag.Name })" class="addremoveBtn" title="Add Video"><img src="@Url.Content("~/Content/images/post/remove.png")" width="25" height="25" alt="add" /></a>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                @Html.Label("Tag", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    <a href="@Url.Action("AddTagToPost", "Forum", new { postid = Model.Id })" class="addremoveBtn" title="Add Tag"><img src="@Url.Content("~/Content/images/post/add.png")" width="25" height="25" alt="add" /></a>
+                </div>
+            }
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Meta, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Meta, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Meta, "", new { @class = "text-danger" })
+            </div>
+        </div>       
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ShortDescription, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.ShortDescription, 5, 45, new {  @class = "form-control", @id = "Description"})
+                @Html.ValidationMessageFor(model => model.ShortDescription, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Body, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.Body, new { @id = "PostBody", @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Body, "", new { @class = "text-danger" })
+                <script>CKEDITOR.replace("PostBody", {
+                    extraPlugins: "youtube,spoiler,codesnippet,html5audio,tableresize",
+                    filebrowserImageBrowseUrl: '/CKEditorUpload/uploadPartial',
+                    filebrowserImageUploadUrl: '/CKEditorUpload/uploadnow'
+                    });
+                    
+                    function updateValue(id, value) {
+                        // this gets called from the popup window and updates the field with a new value 
+                        var dialog = CKEDITOR.dialog.getCurrent();
+                        if (dialog != null) {
+                            dialog.setValueOf('info', 'txtUrl', value);
+                        }
+                        else {
+                            document.getElementById('cke_Extend_textInput_ID').value = value;
+                        }
+                    }
+                </script>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.isPublished, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">                
+                @Html.EditorFor(model => model.isPublished, new { @Value = Model.isPublished })
+                @*<div class="checkbox">                    
+                    @Html.EditorFor(model => model.isPublished, new { @Value = Model.isPublished})
+                    @Html.ValidationMessageFor(model => model.isPublished, "", new { @class = "text-danger" })
+                </div>*@
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="hidden" value=false name="CanselEdit" />
+                <input class="comTextBtn" type="submit" value="&#x27a5;" />
+            </div>
+        </div>
+    </div>
+}
+@using (Html.BeginForm("EditPost", "Forum", FormMethod.Post, new { role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="hidden" value=true name="CanselEdit" />
+            <input class="canseltBtn" type="submit" value="Cansel" />
+        </div>
+    </div>
+}
+
+

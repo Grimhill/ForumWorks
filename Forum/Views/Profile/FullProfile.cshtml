@@ -1,0 +1,55 @@
+﻿@model Forum.Models.ProfileViewModel
+@using System.Web.ApplicationServices
+@using Microsoft.AspNet.Identity
+
+@{
+    ViewBag.Title = "FullProfile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>FullProfile</h2>
+
+<div class="profile">
+
+    <dl>
+        <dt></dt>
+        <dd>
+            @if (Model.UserName != null)
+            {
+                var pathToFile = "~/Content/images/profile/" + Model.UserName + "/" + Model.UserName + ".png";
+                if (!File.Exists(System.Web.Hosting.HostingEnvironment.MapPath(pathToFile)))
+                {
+                    pathToFile = "~/Content/images/profile/Default.png";
+                }
+                var imgUrl = Url.Content(pathToFile) + "?time=" + DateTime.Now.ToString();
+                <div class="accimg">
+                    <img src="@imgUrl" height="250" width="250" />
+                </div>
+            }
+        <!--Check if data not null and show-->
+        </dd>
+        <dt>UserName: </dt>
+        <dd>@Model.UserName</dd>
+        <dt>RegisterDate: </dt>
+        <dd>@Model.Registered</dd>
+        <dt>LastLogin: </dt>
+        <dd>@Model.LastLogin</dd>
+        @if (@Model.UserName != null)
+        {
+            <dt>FisrName: </dt>
+            <dd>@Model.FirstName</dd>
+        }        
+        <dt>LastName: </dt>
+        <dd>@Model.LastName</dd>
+        <dt>MemberGroup: </dt>
+        <dd>@Model.UserRole</dd>
+        <dt>Country: </dt>
+        <dd>@Model.Country</dd>
+        <dt>City: </dt>
+        <dd>@Model.City</dd>
+        <dt>Gender: </dt>
+        <dd>@Model.Gender</dd>
+        <dt>BirthDate: </dt>
+        <dd>@Model.BirthDate</dd>
+    </dl>    
+</div>

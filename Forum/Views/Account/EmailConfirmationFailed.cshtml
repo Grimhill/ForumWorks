@@ -1,0 +1,16 @@
+﻿
+@{
+    ViewBag.Title = "EmailConfirmationFailed";
+}
+<h2>The Account Is Not Authorized to Login</h2>
+@using (Html.BeginForm("SendConfirmationMail", "Account", FormMethod.Post, new { @class = "confirmform", @role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <div>
+        <p class="text-error">
+            Your Email is not Verified. Please Check Your Email for Confirmation Link.
+        </p> 
+    </div>
+}
+
+

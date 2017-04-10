@@ -23,7 +23,6 @@ namespace Forum.Models
         public DateTime LastLoginDate       { get; internal set; }
         public bool     OnlineStatus        { get; set; }
 
-
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
@@ -69,7 +68,7 @@ namespace Forum.Models
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();          
+            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         }
     }
 }

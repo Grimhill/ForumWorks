@@ -250,11 +250,9 @@
     <Content Include="Content\images\post\report.png" />
     <Content Include="Content\images\post\twitter.png" />
     <Content Include="Content\images\post\upvote.png" />
+    <Content Include="Content\images\profile\Admin\Admin.png" />
     <Content Include="Content\images\profile\Default.png" />
     <Content Include="Content\images\profile\Default_.png" />
-    <Content Include="Content\images\profile\Mazay\Mazay.png" />
-    <Content Include="Content\images\profile\Parker.png" />
-    <Content Include="Content\images\profile\Parker\Parker.png" />
     <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />

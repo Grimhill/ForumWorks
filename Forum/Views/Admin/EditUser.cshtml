@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "EditUser";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var admCtrl = new AdminController();
 }
 
 <div class="mnghmcont">
@@ -20,13 +21,11 @@
             {
                 //roles vision for admin and moderator rights
                 if (User.IsInRole("Admin"))
-                {
-                    var admCtrl = new AdminController();
+                {                    
                     ViewBag.Roles = admCtrl.GetUserRoles(AdminController.UsrRole);
                 }
                 else if(User.IsInRole("Moderator"))
-                {
-                    var admCtrl = new AdminController();
+                {                   
                     ViewBag.Roles = admCtrl.GetUserRolesForModer(AdminController.UsrRole);
                 }
             }

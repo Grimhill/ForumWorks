@@ -89,9 +89,8 @@ namespace Forum.Models
         [Required]
         public string UrlSeo           { get; set; }
         [Required]
-        public string ShortDescription { get; set; }
-       
-        public int      PostCount    { get; set; }
+        public string ShortDescription { get; set; }       
+     
         public int      PostDislikes { get; set; }
         public int      PostLikes    { get; set; }
         public string   Author       { get; set; }
@@ -113,6 +112,7 @@ namespace Forum.Models
         public DateTime  Date          { get; set; }
         public string    Description   { get; set; }
         public string    Title         { get; set; }
+        public string    Meta          { get; set; }
         public string    Author        { get; set; }
         public bool      Checked       { get; set; }
         public string    UrlSlug       { get; set; }
@@ -168,7 +168,6 @@ namespace Forum.Models
         [Key]
         [Column(Order = 1)]
         public int      CategoryId { get; set; }
-
         public bool     Checked    { get; set; }
 
         public Post     Post       { get; set; }
@@ -200,7 +199,6 @@ namespace Forum.Models
         [Key]
         [Column(Order = 1)]
         public int  TagId   { get; set; }
-
         public bool Checked { get; set; }
 
         public Post Post    { get; set; }
@@ -263,6 +261,8 @@ namespace Forum.Models
         public string    EditedBy      { get; set; }
         [Required]
         public string    Body          { get; set; }
+        [DefaultValue(0)]
+        public int       NetLikeCount  { get; set; }
         [DefaultValue(false)]
         public bool      Deleted       { get; set; }
 

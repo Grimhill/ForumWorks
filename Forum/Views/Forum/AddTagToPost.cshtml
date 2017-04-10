@@ -38,10 +38,15 @@
                 }
             </td>
         </tr>
+    </table>
+    <br />
+
+    <table align="center" style="width:200px">
         <tr>
-            <td colspan="2">
+            <td>
                 @Html.TextBoxFor(m => m.Id, new { type = "hidden" })
-                <input class="addCatBtn" type="submit" value="&#x27a5;" />
+                <input class="btn btn-default" type="submit" value="Add Tag" />
+                <input type="button" value="Cancel" onclick="location.href='@Url.Action("EditPost", "Forum", new { slug = Model.UrlSeo })'" class="btn btn-default" style="float:right" />
             </td>
         </tr>
     </table>

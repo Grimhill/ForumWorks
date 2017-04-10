@@ -246,14 +246,14 @@ namespace Forum.Functionality
 
         //Comment section
         #region Comments
-        public IList<Comment> GetPostComments(Post post)
+        public IList<Comment> GetPostComments(int postId)
         {
-            return _context.Comments.Where(p => p.PostId == post.Id).ToList();
+            return _context.Comments.Where(p => p.PostId == postId).ToList();
         }
 
-        public IList<Reply> GetPostReplies(Post post)
+        public IList<Reply> GetPostReplies(int postId)
         {
-            return _context.Replies.Where(p => p.PostId == post.Id).ToList();
+            return _context.Replies.Where(p => p.PostId == postId).ToList();
         }
 
         public List<CommentViewModel> GetParentReplies(Comment comment)

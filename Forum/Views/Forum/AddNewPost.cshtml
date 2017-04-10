@@ -69,22 +69,19 @@
     </div>
 
     <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="hidden" value=true name="CanselCreation" />
-            <input class="comTextBtn" type="submit" value="&#x27a5;" />
+        @Html.Label("Action", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            <table class="col-sm-12">
+                <tr>
+                    <td>
+                        <input class="btn btn-default" type="submit" value="Create Post" />
+                        <input type="button" value="Cancel" onclick="location.href='@Request.UrlReferrer.ToString()'" class="btn btn-default" style="float:right" />
+                     </td>
+                </tr>
+            </table>
         </div>
-    </div>
+    </div> 
 </div>
 }
 
-@using (Html.BeginForm("AddNewPost", "Forum", FormMethod.Post, new { role = "form" }))
-{
-    @Html.AntiForgeryToken()
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="hidden" value=true name="CanselCreation" />
-            <input class="canseltBtn" type="submit" value="Cansel" />
-        </div>
-    </div>
-}
 

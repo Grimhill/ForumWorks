@@ -38,14 +38,14 @@ namespace Forum.Functionality
                             {
                                 strOut = reader["UserName"].ToString();
                             }
-                            else if (methodName == "FindUserRole")
-                            {
-                                strOut = reader["Name"].ToString();
-                            }
                             else if (methodName == "FindUserId")
                             {
                                 strOut = reader["UserId"].ToString();
                             }
+                            else if (methodName == "FindUserRole")
+                            {
+                                strOut = reader["Name"].ToString();
+                            }                            
                             //forcon
                             else if (methodName == "FindCategoty")
                             {
@@ -112,7 +112,7 @@ namespace Forum.Functionality
         //Accon external log
         public string FindUserNameById(string userid)
         {
-            command = "SELECT UserName AS UserName FROM AspNetUsers WHERE Id = @Id";
+            command = "SELECT UserName FROM AspNetUsers WHERE Id = @Id";
             parameterName = "@Id";
             methodName = "FindUserNameById";
             return ReturnString(userid);
@@ -120,11 +120,22 @@ namespace Forum.Functionality
 
         public string FindUserId(string userprokey)
         {
-            command = "SELECT UserId AS UserId FROM AspNetUserLogins WHERE ProviderKey = @ProviderKey";
+            command = "SELECT UserId FROM AspNetUserLogins WHERE ProviderKey = @ProviderKey";
             parameterName = "@ProviderKey";
             methodName = "FindUserId";
             return ReturnString(userprokey);
-        }        
+        }
+
+        //using one query
+        public string ExternalUser(string userprokey)
+        {
+            command = "SELECT UserName FROM AspNetUsers " +
+                 "INNER JOIN AspNetUserLogins ON AspNetUserLogins.UserId = AspNetUsers.Id " +
+                 "WHERE ProviderKey = @ProviderKey";            
+            parameterName = "@ProviderKey";
+            methodName = "FindUserNameById";
+            return ReturnString(userprokey);
+        }
 
         //return bool for email conform to allow login
         public bool ReturnBool(string str)

@@ -13,14 +13,16 @@
             <td><input class="newCatInp" type="text" name="tagName" /></td>
         </tr>
         <tr>
-            <td colspan="2">
+            <td></td>
+            <td>
                 @if (Model != null)
                 {
                     <input type="hidden" value="@Model.Id" name="postid" />
                 }
                 else
                 { <input type="hidden" value=0 name="postid" />}
-                <input class="newCatBtn" type="submit" value="&#x27a5;" />
+                <input class="newCatBtn" type="submit" value="&#x27a5;" style="float:none" />
+                <input type="button" value="Cancel" onclick="location.href='@Request.UrlReferrer.ToString()'" class="btn btn-default" style="float:right" />
             </td>
         </tr>
     </table>

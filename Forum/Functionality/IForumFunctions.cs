@@ -21,7 +21,7 @@ namespace Forum.Functionality
         IList<Category> GetCategories();
         #endregion
 
-        #region 2
+        #region Post, category, tag
         Post GetPostById(int postid);
         int  GetPostIdBySlug(string slug);
         void AddNewPost(Post post);
@@ -42,8 +42,8 @@ namespace Forum.Functionality
         #endregion
 
         #region comments
-        IList<Comment> GetPostComments(Post post);
-        IList<Reply> GetPostReplies(Post post);
+        IList<Comment> GetPostComments(int postId);
+        IList<Reply> GetPostReplies(int postId);
         List<CommentViewModel> GetParentReplies(Comment comment);
         List<CommentViewModel> GetChildReplies(Reply parentReply);
         Reply GetReplyById(int id);

@@ -132,7 +132,7 @@
                 <input class="submitBtnLink" type="submit" value="Title" />
             }
         </th>
-        <th>Description</th>
+        <th>Meta</th>
         <th>Categories</th>
         <th>Tags</th>
         <th>Author</th>  
@@ -152,7 +152,7 @@
             <td>@num</td>
             <td>@post.Date</td> @*.ToShortDateString()*@
             <td><a href="@Url.Action("Post","Forum",new {slug = @post.UrlSlug })" title="Title">@post.Title</a></td>
-            <td>@Html.Raw(post.Description)</td>
+            <td>@Html.Raw(post.Meta)</td>
             <td>
                 @foreach (var cat in post.PostCategories)
                 {

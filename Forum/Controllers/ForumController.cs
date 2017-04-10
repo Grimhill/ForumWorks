@@ -127,6 +127,7 @@ namespace Forum.Controllers
                 postList = postList.Where(x => x.Title.ToLower().Contains(searchString.ToLower())).ToList();
             }
 
+            //filter by category search on main page
             if (searchCategory != null)
             {
                 List<ForumViewModel> newlist = new List<ForumViewModel>();
@@ -150,6 +151,7 @@ namespace Forum.Controllers
                 postList = postList.Intersect(newlist).ToList();
             }
 
+            //filter by tag search on main page
             if (searchTag != null)
             {
                 List<ForumViewModel> newlist = new List<ForumViewModel>();
@@ -222,6 +224,7 @@ namespace Forum.Controllers
                     Description    = post.ShortDescription,
                     Title          = post.Title,
                     PostCategories = postCategories,
+                    Meta           = post.Meta,
                     PostTags       = postTags,
                     Author         = post.Author,
                     Modified       = post.Modified,
@@ -237,7 +240,7 @@ namespace Forum.Controllers
 
             CreateCatAndTagList();
 
-            //filter by tag\category search on main page
+            //filter by category search in posts
             if (searchCategory != null)
             {
                 List<AllPostsViewModel> newlist = new List<AllPostsViewModel>();
@@ -261,6 +264,7 @@ namespace Forum.Controllers
                 allPostsList = allPostsList.Intersect(newlist).ToList();
             }
 
+            //filter by tag search in posts
             if (searchTag != null)
             {
                 List<AllPostsViewModel> newlist = new List<AllPostsViewModel>();
@@ -313,13 +317,11 @@ namespace Forum.Controllers
         [AllowAnonymous]
         public ActionResult Post(string sortOrder, string slug)
         {
-            PostViewModel model = new PostViewModel();
-            var posts  = GetPosts();
+            PostViewModel model = new PostViewModel();            
             var postid = _forumFunctions.GetPostIdBySlug(slug);
             var post   = _forumFunctions.GetPostById(postid);
            
-            model.Id            = post.Id;
-            model.PostCount     = posts.Count();
+            model.Id            = post.Id;            
             model.UrlSeo        = post.UrlSeo;            
             model.Title         = post.Title;
             model.Body          = post.Body;
@@ -333,24 +335,19 @@ namespace Forum.Controllers
             return View(model);
         }
 
-        [Authorize(Roles = "Admin, Moderator")] //also roles in view blog\index        
+        //[Authorize(Roles = "Admin, Moderator")] //also roles in view blog\index        
         [HttpGet]
         public ActionResult AddNewPost()
         {            
             return View();
         }
-
         
-        [Authorize(Roles = "Admin, Moderator")]        
+        //[Authorize(Roles = "Admin, Moderator")]        
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
-        public ActionResult AddNewPost(PostViewModel model, bool CanselCreation)
-        {
-            if (CanselCreation)
-            {
-                return RedirectToAction("Index", "Forum");
-            }
+        public ActionResult AddNewPost(PostViewModel model)
+        {            
             var strCurrentUserId = User.Identity.GetUserId();
             var post = new Post
             {                
@@ -380,15 +377,11 @@ namespace Forum.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
-        public ActionResult EditPost(PostViewModel model, bool CanselEdit)
+        public ActionResult EditPost(PostViewModel model)
         {
-            if(CanselEdit)
-            {
-                return RedirectToAction("Index", "Forum");
-            }
             var strCurrentUserId  = User.Identity.GetUserId(); //get current user id
             var post              = _forumFunctions.GetPostById(model.Id);
-            //post.Author           = model.Author;
+            
             post.Body             = model.Body;
             post.Title            = model.Title;
             post.Meta             = model.Meta;
@@ -431,8 +424,11 @@ namespace Forum.Controllers
         [HttpGet]
         public ActionResult AddCategoryToPost(int postid)
         {
+            var post = _forumFunctions.GetPostById(postid);
             PostViewModel model = new PostViewModel();
-            model.Id = postid;
+
+            model.Id         = postid;
+            model.UrlSeo     = post.UrlSeo;
             model.Categories = _forumFunctions.GetCategories();
             return View(model);
         }
@@ -535,9 +531,12 @@ namespace Forum.Controllers
         [HttpGet]
         public ActionResult AddTagToPost(int postid)
         {
+            var post = _forumFunctions.GetPostById(postid);
             PostViewModel model = new PostViewModel();
-            model.Id   = postid;
-            model.Tags = _forumFunctions.GetTags();
+
+            model.Id     = postid;
+            model.UrlSeo = post.UrlSeo;
+            model.Tags   = _forumFunctions.GetTags();
             return View(model);
         }
 
@@ -645,13 +644,7 @@ namespace Forum.Controllers
             checkTagList.Clear();
             CreateCatAndTagList();
             return View();
-        }
-        
-        [HttpGet]
-        public ActionResult PostTagsAndCategory()
-        {            
-            return PartialView();
-        }
+        }  
 
         //[Authorize(Roles = "Admin")]
         [HttpPost]
@@ -676,6 +669,12 @@ namespace Forum.Controllers
             }
             return RedirectToAction("CategoriesAndTags", "Forum");
         }
+
+        [HttpGet]
+        public ActionResult PostTagsAndCategory()
+        {
+            return PartialView();
+        }
         #endregion Categoris and Tags
 
         #region comments
@@ -686,7 +685,7 @@ namespace Forum.Controllers
             ViewBag.DateSortParm = string.IsNullOrEmpty(sortOrder) ? "date_asc" : "";
             ViewBag.BestSortParm = sortOrder == "Best" ? "best_desc" : "Best";
 
-            var postComments = _forumFunctions.GetPostComments(post).OrderByDescending(d => d.DateTime).ToList();
+            var postComments = _forumFunctions.GetPostComments(post.Id).OrderByDescending(d => d.DateTime).ToList();
 
             foreach (var comment in postComments)
             {
@@ -1169,9 +1168,8 @@ namespace Forum.Controllers
 
         public int CountPostComments(int postId)
         {
-            var post          = _forumFunctions.GetPostById(postId);            
-            var repliesCount  = _forumFunctions.GetPostReplies(post).Count();
-            var commentsCount = _forumFunctions.GetPostComments(post).Count();
+            var repliesCount = _forumFunctions.GetPostReplies(postId).Count();
+            var commentsCount = _forumFunctions.GetPostComments(postId).Count();
             
             return commentsCount + repliesCount;            
         }     

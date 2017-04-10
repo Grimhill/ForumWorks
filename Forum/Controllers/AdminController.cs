@@ -90,8 +90,7 @@ namespace Forum.Controllers
                 }
                 model.UserId       = user.Id;
                 model.UserFullName = user.FirstName + " " + user.LastName;
-                usrList.Add(new AdminUserViewModel() { UserName = model.UserName, RankName = model.RankName, UserId = model.UserId, RankId = model.RankId, UserFullName = model.UserFullName });
-                //model.RankName = null;
+                usrList.Add(new AdminUserViewModel() { UserName = model.UserName, RankName = model.RankName, UserId = model.UserId, RankId = model.RankId, UserFullName = model.UserFullName });               
             }
 
             List<AdminRoleViewModel> rolesList = new List<AdminRoleViewModel>();

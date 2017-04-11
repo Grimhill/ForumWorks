@@ -5,27 +5,38 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="delacccont">
-    <div class="delaccgrp">
-        <div class="delacclbl" style="text-align:center;">Are you sure?</div>
-    </div>
-    @using (Html.BeginForm("DeleteReply", "Forum", FormMethod.Post, new { @role = "form" }))
-    {
-        @Html.AntiForgeryToken()
+    <table style="width:auto; margin-left: auto; margin-right: auto;">
+        <tr>
+            <td colspan="3" style="text-align:center">Are you sure?</td>
+        </tr>
+        <tr>
+            <td>
+                @using (Html.BeginForm("DeleteReply", "Forum", FormMethod.Post, new { @role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
 
-            <div class="delaccgrp">
-                <input type="hidden" value="@Model.Id" name="replyid" />
-                <input type="hidden" value=false name="deleteReplies" />
-                <input type="submit" value="Delete Reply" class="btn btn-default delaccbtn" />
-            </div>
-    }
-    @using (Html.BeginForm("DeleteReply", "Forum", FormMethod.Post, new { @role = "form" }))
-    {
-        @Html.AntiForgeryToken()
-        <div class="delaccgrp">
-            <input type="hidden" value="@Model.Id" name="replyid" />
-            <input type="hidden" value=true name="deleteReplies" />
-            <input type="submit" value="Delete Reply with children" class="btn btn-default delaccbtn" />
-        </div>       
-    }
+                    <div class="delaccgrp">
+                        <input type="hidden" value="@Model.Id" name="replyid" />
+                        <input type="hidden" value=false name="deleteReplies" />
+                        <input type="submit" value="Delete Reply" class="btn btn-default delaccbtn" />
+                    </div>
+                }
+            </td>
+            <td>
+                @using (Html.BeginForm("DeleteReply", "Forum", FormMethod.Post, new { @role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="delaccgrp">
+                        <input type="hidden" value="@Model.Id" name="replyid" />
+                        <input type="hidden" value=true name="deleteReplies" />
+                        <input type="submit" value="Delete Reply with all children" class="btn btn-default delaccbtn" />
+                    </div>
+                }
+            </td>
+            <td>
+                <input type="button" value="Cancel" onclick="location.href='@Request.UrlReferrer.ToString()'" class="btn btn-default" />
+            </td>
+        </tr>
+    </table>
 </div>
 

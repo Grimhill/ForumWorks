@@ -60,7 +60,7 @@ namespace Forum.Functionality
         void DeleteComment(int commentid);
         void DeleteReply(int replyid);
         void DeleteCommentWithReplies(int commentid);
-        void DeleteReplyWithChilds(int replyid);
+        void DeleteReplyWithChildren(int replyid);
         #endregion
 
         #region some additional helpers

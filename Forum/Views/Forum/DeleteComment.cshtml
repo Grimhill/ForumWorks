@@ -5,28 +5,36 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="delacccont">
+<div class="delcom" style="text-align:center">
     <div class="delaccgrp">
-        <div class="delacclbl" style="text-align:center;">Are you sure?</div>
+        <div class="delacclbl">Are you sure?</div>
     </div>
-    @using (Html.BeginForm("DeleteComment", "Forum", FormMethod.Post, new { @role = "form" }))
-    {
-        @Html.AntiForgeryToken()
+    <br />
+    <div style="display:inline-block">
+        @using (Html.BeginForm("DeleteComment", "Forum", FormMethod.Post, new { @role = "form" }))
+        {
+            @Html.AntiForgeryToken()
             <div class="delaccgrp">
                 <input type="hidden" value="@Model.Id" name="commentid" />
                 <input type="hidden" value=false name="deleteReplies" />
                 <input type="submit" value="Delete Comment" class="btn btn-default delaccbtn" />
-            </div>            
+            </div>
 
-    }
+        }
+    </div>
 
-    @using (Html.BeginForm("DeleteComment", "Forum", FormMethod.Post, new { @role = "form" }))
-    {
-        @Html.AntiForgeryToken()        
-        <div class="delaccgrp">
-            <input type="hidden" value="@Model.Id" name="commentid" />
-            <input type="hidden" value=true name="deleteReplies" />
-            <input type="submit" value="Delete Comment with all replies" class="btn btn-default delaccbtn" />
-        </div>       
-    }
- </div>
+    <div style="display:inline-block">
+        @using (Html.BeginForm("DeleteComment", "Forum", FormMethod.Post, new { @role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="delaccgrp">
+                <input type="hidden" value="@Model.Id" name="commentid" />
+                <input type="hidden" value=true name="deleteReplies" />
+                <input type="submit" value="Delete Comment with all replies" class="btn btn-default delaccbtn" />
+            </div>
+        }
+    </div>
+    <div style="display:inline-block">
+        <input type="button" value="Cancel" onclick="location.href='@Request.UrlReferrer.ToString()'" class="btn btn-default" />
+    </div>
+</div>

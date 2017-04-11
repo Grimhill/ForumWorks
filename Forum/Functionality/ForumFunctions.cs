@@ -55,23 +55,30 @@ namespace Forum.Functionality
             }
             return tags;
         }
-      
+
         public int LikeDislikeCount(string typeAndChoice, int id)
         {
+            int count = 0;
             switch (typeAndChoice)
             {
                 case "postlike":
-                    return _context.PostLikes.Where(p => p.PostId == id && p.Like == true).Count();
+                    count = _context.PostLikes.Where(p => p.PostId == id && p.Like == true).Count();
+                    return count;
                 case "postdislike":
-                    return _context.PostLikes.Where(p => p.PostId == id && p.Dislike == true).Count();
+                    count = _context.PostLikes.Where(p => p.PostId == id && p.Dislike == true).Count();
+                    return count;
                 case "commentlike":
-                    return _context.CommentLikes.Where(p => p.CommentId == id && p.Like == true).Count();
+                    count = _context.CommentLikes.Where(p => p.CommentId == id && p.Like == true).Count();
+                    return count;
                 case "commentdislike":
-                    return _context.CommentLikes.Where(p => p.CommentId == id && p.Dislike == true).Count();
+                    count = _context.CommentLikes.Where(p => p.CommentId == id && p.Dislike == true).Count();
+                    return count;
                 case "replylike":
-                    return _context.ReplyLikes.Where(p => p.ReplyId == id && p.Like == true).Count();
+                    count = _context.ReplyLikes.Where(p => p.ReplyId == id && p.Like == true).Count();
+                    return count;
                 case "replydislike":
-                    return _context.ReplyLikes.Where(p => p.ReplyId == id && p.Dislike == true).Count();
+                    count = _context.ReplyLikes.Where(p => p.ReplyId == id && p.Dislike == true).Count();
+                    return count;
                 default:
                     return 0;
             }
@@ -136,10 +143,12 @@ namespace Forum.Functionality
                     case "like":
                         if (postLike.Like == false) { postLike.Like = true; postLike.Dislike = false; }
                         else postLike.Like = false;
+                        Save();
                         break;
                     case "dislike":
                         if (postLike.Dislike == false) { postLike.Like = false; postLike.Dislike = true; }
                         else postLike.Dislike = false;
+                        Save();
                         break;
                 }
                 if (postLike.Like == false && postLike.Dislike == false) _context.PostLikes.Remove(postLike);
@@ -151,10 +160,12 @@ namespace Forum.Functionality
                     case "like":
                         postLike = new PostLike() { PostId = postid, Username = username, Like = true, Dislike = false };
                         _context.PostLikes.Add(postLike);
+                        Save();
                         break;
                     case "dislike":
                         postLike = new PostLike() { PostId = postid, Username = username, Like = false, Dislike = true };
                         _context.PostLikes.Add(postLike);
+                        Save();
                         break;
                 }
             }
@@ -301,7 +312,7 @@ namespace Forum.Functionality
         //individual tables for likes - in future we can obtain ifno about users, who turn like\dislike
         public void UpdateCommentLike(int commentid, string username, string likeordislike)
         {
-            //check that one user cant like or dislike more than one time
+            //one user cant like or dislike more than one time and allow to change his vote
             var commentLike = _context.CommentLikes.Where(x => x.Username == username && x.CommentId == commentid).FirstOrDefault();
             if (commentLike != null)
             {
@@ -310,10 +321,12 @@ namespace Forum.Functionality
                     case "like":
                         if (commentLike.Like == false) { commentLike.Like = true; commentLike.Dislike = false; }
                         else commentLike.Like = false;
+                        Save();
                         break;
                     case "dislike":
                         if (commentLike.Dislike == false) { commentLike.Dislike = true; commentLike.Like = false; }
                         else commentLike.Dislike = false;
+                        Save();
                         break;
                 }
                 if (commentLike.Like == false && commentLike.Dislike == false) _context.CommentLikes.Remove(commentLike);
@@ -325,10 +338,12 @@ namespace Forum.Functionality
                     case "like":
                         commentLike = new CommentLike() { CommentId = commentid, Username = username, Like = true, Dislike = false };
                         _context.CommentLikes.Add(commentLike);
+                        Save();
                         break;
                     case "dislike":
                         commentLike = new CommentLike() { CommentId = commentid, Username = username, Like = false, Dislike = true };
                         _context.CommentLikes.Add(commentLike);
+                        Save();
                         break;
                 }
             }
@@ -339,7 +354,7 @@ namespace Forum.Functionality
 
         public void UpdateReplyLike(int replyid, string username, string likeordislike)
         {
-            //check that one user cant like or dislike more than one time
+            //one user cant like or dislike more than one time and allow to change his vote
             var replyLike = _context.ReplyLikes.Where(x => x.Username == username && x.ReplyId == replyid).FirstOrDefault();
             if (replyLike != null)
             {
@@ -348,10 +363,12 @@ namespace Forum.Functionality
                     case "like":
                         if (replyLike.Like == false) { replyLike.Like = true; replyLike.Dislike = false; }
                         else replyLike.Like = false;
+                        Save();
                         break;
                     case "dislike":
                         if (replyLike.Dislike == false) { replyLike.Dislike = true; replyLike.Like = false; }
                         else replyLike.Dislike = false;
+                        Save();
                         break;
                 }
                 if (replyLike.Like == false && replyLike.Dislike == false) _context.ReplyLikes.Remove(replyLike);
@@ -363,13 +380,17 @@ namespace Forum.Functionality
                     case "like":
                         replyLike = new ReplyLike() { ReplyId = replyid, Username = username, Like = true, Dislike = false };
                         _context.ReplyLikes.Add(replyLike);
+                        Save();
                         break;
                     case "dislike":
                         replyLike = new ReplyLike() { ReplyId = replyid, Username = username, Like = false, Dislike = true };
                         _context.ReplyLikes.Add(replyLike);
+                        Save();
                         break;
                 }
             }
+            var reply = _context.Replies.Where(x => x.Id == replyid).FirstOrDefault();
+            reply.NetLikeCount = LikeDislikeCount("replylike", replyid) - LikeDislikeCount("replydislike", replyid);
             Save();
         }
 
@@ -410,22 +431,48 @@ namespace Forum.Functionality
             Save();
         }
 
+        //Pretty like additional functions for this :3 although we can implement Delete and delete with rep(children) in one method
         public void DeleteCommentWithReplies(int commentid)
         {
             var comment = _context.Comments.Where(x => x.Id == commentid).FirstOrDefault();
             _context.Comments.Remove(comment);
             //Save();
-            var replies = _context.Replies.Where(x => x.CommentId == commentid).FirstOrDefault();
-            _context.Replies.Remove(replies);
+            var replies = _context.Replies.Where(x => x.CommentId == commentid).ToList();
+            if (replies.Count() != 0)
+            {
+                _context.Replies.RemoveRange(replies);
+            }
             Save();
         }
 
-        public void DeleteReplyWithChilds(int replyid)
+        public void DeleteReplyWithChildren(int replyid)
         {
             var reply = _context.Replies.Where(x => x.Id == replyid).FirstOrDefault();
             _context.Replies.Remove(reply);
-            //Save();
-            var child = _context.Replies.Where(x => x.ParentReplyId == replyid).FirstOrDefault();
+
+            //looking for all children in "root" parentreply           
+            var children = _context.Replies.Where(x => x.ParentReplyId == reply.Id).ToList();
+            //looking for all children in children in children
+            if (children.Count() != 0)
+            {
+                foreach (var child in children)
+                {
+                    _context.Replies.Remove(child);
+                    //looking for all children, where parentReply rank higher child
+                    var moreChildren = _context.Replies.Where(x => x.ParentReplyId == child.Id).ToList();
+                    if (moreChildren.Count() != 0)
+                    {
+                        foreach (var mrCh in moreChildren)
+                        {
+                            DeleteReplyWithChildren(mrCh.Id); //recusive using our function
+                        }
+                    }
+                }
+            }
+
+            //little variant. Varian above looking hard, and don`t if work directly for 100%, but i like it :3
+            //var allChildren = _context.Replies.Where(x => x.CommentId == reply.CommentId && x.ParentReplyId >= reply.Id).ToList();
+            //_context.Replies.RemoveRange(allChildren);
             Save();
         }
         #endregion comments

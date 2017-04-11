@@ -387,7 +387,7 @@ textarea {
 }
 
 .commentContainer {
-    width: 70%;
+    width: 90%;
     min-width: 520px;
     overflow: hidden;
 }
@@ -491,7 +491,7 @@ blockquote {
 }
 
 .commentContainer .userComment {
-    width: 90%;
+    width: 100%;
     padding: 10px;
     margin: 0 auto;
     margin-bottom: 5px;

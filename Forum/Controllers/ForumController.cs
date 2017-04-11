@@ -734,10 +734,10 @@ namespace Forum.Controllers
         {
             var comment = new Comment()
             {       
-                PostId   = postid,
-                DateTime = DateTime.Now,
-                UserName = comUserName,
-                Body     = commentBody,
+                PostId       = postid,
+                DateTime     = DateTime.Now,
+                UserName     = comUserName,
+                Body         = commentBody,
                 NetLikeCount = 0
             };
             _forumFunctions.AddNewComment(comment);
@@ -765,6 +765,7 @@ namespace Forum.Controllers
                     DateTime      = DateTime.Now,
                     UserName      = comUserName,
                     Body          = replyBody,
+                    NetLikeCount  = 0
                 };
                 _forumFunctions.AddNewReply(reply);
             }
@@ -793,6 +794,7 @@ namespace Forum.Controllers
                     DateTime      = DateTime.Now,
                     UserName      = comUserName,
                     Body          = replyBody,
+                    NetLikeCount  = 0
                 };
                 _forumFunctions.AddNewReply(reply);
             }
@@ -924,7 +926,7 @@ namespace Forum.Controllers
 
             if (deleteReplies)
             {
-                _forumFunctions.DeleteReplyWithChilds(replyid);
+                _forumFunctions.DeleteReplyWithChildren(replyid);
             }
             else
             {

@@ -14,11 +14,11 @@
             <th>Sort by :</th>
             <th>
                 @using (Html.BeginForm("Index", "Forum", FormMethod.Get))
-            {
-                if (ViewBag.CurrentSearchCategory != null)
                 {
-                    foreach (var item in ViewBag.CurrentSearchCategory)
+                    if (ViewBag.CurrentSearchCategory != null)
                     {
+                        foreach (var item in ViewBag.CurrentSearchCategory)
+                        {
                             <input type="hidden" name="searchCategory" value="@item" />
                         }
                     }
@@ -36,11 +36,11 @@
             </th>
             <th class="tableTitle">
                 @using (Html.BeginForm("Index", "Forum", FormMethod.Get))
-            {
-                if (ViewBag.CurrentSearchCategory != null)
                 {
-                    foreach (var item in ViewBag.CurrentSearchCategory)
+                    if (ViewBag.CurrentSearchCategory != null)
                     {
+                        foreach (var item in ViewBag.CurrentSearchCategory)
+                        {
                             <input type="hidden" name="searchCategory" value="@item" />
                         }
                     }
@@ -118,27 +118,20 @@
         <div class="postDescBody">
             <label>Description:&nbsp;</label>
             @Html.Raw(post.ShortDescription)
-            <br />            
-            @Html.ActionLink("Read More...", "Post", "Forum", new { slug = @post.UrlSlug }, null)
         </div>
-        @if (total >= 0)
-        {
+
+        <div class="randLine" style="display:inline-block">
+            @Html.ActionLink("Read More...", "Post", "Forum", new { slug = @post.UrlSlug }, null)
+            <p style="text-shadow:inherit; font-style:italic">Post rating: @total</p>
+        </div>
+        <div class="randLine" style="display:inline-block;float:right">
             <table class="postLikes">
-                <tr>
-                    <td style="text-align:center; color:green; font-style:italic;">@total</td>
-                    <td><img src="@Url.Content("~/Content/images/post/like.png")" width="20" height="20" alt="upvote" /></td>
+                <tr align="right">
+                    <td id="PostLike">@post.PostLikes</td>
+                    <td id="PostDislike">@post.PostDislikes</td>
                 </tr>
             </table>
-        }
-        else
-        {
-            <table class="postDislikes">
-                <tr>
-                    <td style="text-align:center; color:#b50000; font-style:oblique;">@total</td>
-                    <td><img src="@Url.Content("~/Content/images/post/dislike.png")" width="20" height="20" alt="downvote" /></td>
-                </tr>
-            </table>
-        }
+        </div>
     </div>
   }
 

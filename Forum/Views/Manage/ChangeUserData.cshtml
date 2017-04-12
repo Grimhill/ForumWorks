@@ -16,14 +16,6 @@
         ViewBag.BirthDate = Model.BirthDate.Value.ToString("yyyy-MM-dd");
     }
 }
-@*<script>  
-function myFunction() {
-    var val = document.getElementById("Gend");
-    val.options[val.selectedIndex].value;
-    return val;
-}
-document.getElementById("GendVal").value = myFunction();
-</script>*@
 
 <h2>ChangeUserData</h2>
 
@@ -47,17 +39,10 @@ document.getElementById("GendVal").value = myFunction();
             </div>
         </div>
 
-        @*<div class="form-group">
-            @Html.LabelFor(m => m.Country, new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(m => m.Country, new { @class = "form-control" })
-            </div>
-        </div>*@
-
         <div class="form-group">
             @Html.LabelFor(m => m.BirthDate, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.BirthDate, new { htmlAttributes = new { @class = "form-control", @Value = ViewBag.BirthDate } }) @*@Model.BirthDate.Value.ToString("yyyy-MM-dd")*@
+                @Html.EditorFor(model => model.BirthDate, new { htmlAttributes = new { @class = "form-control", @Value = ViewBag.BirthDate } }) 
                 @Html.ValidationMessageFor(model => model.BirthDate, "", new { @class = "text-danger"})               
             </div>
         </div>          
@@ -70,14 +55,7 @@ document.getElementById("GendVal").value = myFunction();
                 {
                     <option @if(Model.Country == country) { <text>selected</text>} value=@country>@country</option>                     
                 }                                  
-                </select>                
-
-                @*<select class="droplist" name="Country" id="Country">
-                    @foreach (SelectListItem country in ViewBag.Country)
-                    {
-                        <option @if (Model.Country == country.Text.ToString()) { <text> selected</text>} value=@country>@country</option>
-                    }
-                </select>*@
+                </select> 
                 <input type="hidden" name="Country" id="Country" /> 
             </div>
         </div>
@@ -91,14 +69,7 @@ document.getElementById("GendVal").value = myFunction();
 
         <div class="form-group">
         @Html.LabelFor(m => m.Gender, new { @class = "col-md-2 control-label" })
-        @*<div class="col-md-10">
-            @Html.DropDownListFor(m => m.Gender, new SelectList(
-            new List<Object> {
-            new { value = "Male" , text = "Male" },
-            new { value = "Female" , text = "Female" },
-            new { value = "Trap" , text = "Trap" },
-            }, "value", "text", 3), new { @class = "droplist" })
-        </div>*@
+
             <div class="col-md-10">                                          
                 <select class = "droplist" name="Gender" id="Gender">
                     <option @if (Model.Gender == null) { <text> selected</text>} value=""></option>
@@ -109,20 +80,6 @@ document.getElementById("GendVal").value = myFunction();
                 <input type="hidden" name= "Gender" id="Gender"/>                              
             </div>        
          </div>
-
-        @*<div class="form-group">
-            @Html.LabelFor(m => m.Country, new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(m => m.Country, new { @class = "form-control" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(m => m.BirthDate, new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(m => m.BirthDate, new { @class = "form-control" })
-            </div>
-        </div>*@
 
         <div class="form-group">
             @Html.LabelFor(model => model.YourSelfDescription, htmlAttributes: new { @class = "control-label col-md-2" })

@@ -243,13 +243,13 @@
     <Content Include="Content\images\post\delete.png" />
     <Content Include="Content\images\post\delete_.png" />
     <Content Include="Content\images\post\dislike.png" />
-    <Content Include="Content\images\post\downvote.png" />
+    <Content Include="Content\images\post\DisLikeSmile.png" />
     <Content Include="Content\images\post\edit.png" />
     <Content Include="Content\images\post\like.png" />
+    <Content Include="Content\images\post\LikeSmile.png" />
     <Content Include="Content\images\post\remove.png" />
     <Content Include="Content\images\post\report.png" />
     <Content Include="Content\images\post\twitter.png" />
-    <Content Include="Content\images\post\upvote.png" />
     <Content Include="Content\images\profile\Admin\Admin.png" />
     <Content Include="Content\images\profile\Default.png" />
     <Content Include="Content\images\profile\Default_.png" />

@@ -31,11 +31,33 @@
                     @if (!forumCtrl.ReplyDeleteCheck(childReply.Id))
                     {
                         <div class="replySubMenu">
-                            <a class="likecount" style="color:green;">@likes</a>
-                            <a href="@Url.Action("UpdateReplyLike", "Forum", new { replyid = childReply.Id,  username = User.Identity.GetUserName(), likeordislike = "like", sortorder = ViewBag.CurrentSort })"><img src="@Url.Content("~/Content/images/post/like.png")" alt="like" /></a>
-                            <a href="@Url.Action("UpdateReplyLike", "Forum", new { replyid = childReply.Id,  username = User.Identity.GetUserName(), likeordislike = "dislike", sortorder = ViewBag.CurrentSort })"><img src="@Url.Content("~/Content/images/post/dislike.png")" alt="dislike" /></a>
-                            <a class="likecount" style="color:red;">@dislikes</a>
-                            <a style="cursor:pointer;" class="comReplyParent" id="@crDetails[11]">Reply</a>                      
+                            @if (Request.IsAuthenticated)
+                            {
+                                <a class="likecount" style="color:green;">@likes</a>
+                                if (childReply.UserName == User.Identity.GetUserName())
+                                {
+                                    <a href="@Url.Action("UpdateReplyLike", "Forum", new { replyid = childReply.Id,username = User.Identity.GetUserName(), likeordislike = "like" })" style="pointer-events:none"><img src="@Url.Content("~/Content/images/post/like.png")" alt="like" /></a>
+                                    <a href="@Url.Action("UpdateReplyLike", "Forum", new { replyid = childReply.Id,username = User.Identity.GetUserName(), likeordislike = "dislike" })" style="pointer-events:none"><img src="@Url.Content("~/Content/images/post/dislike.png")" alt="dislike" /></a>
+                                }
+                                else
+                                {
+                                    <a href="@Url.Action("UpdateReplyLike", "Forum", new { replyid = childReply.Id,username = User.Identity.GetUserName(), likeordislike = "like" })"><img src="@Url.Content("~/Content/images/post/like.png")" alt="like" /></a>
+                                    <a href="@Url.Action("UpdateReplyLike", "Forum", new { replyid = childReply.Id,username = User.Identity.GetUserName(), likeordislike = "dislike" })"><img src="@Url.Content("~/Content/images/post/dislike.png")" alt="dislike" /></a>
+                                }
+                                <a class="likecount" style="color:red;">@dislikes</a>
+                                <a style="cursor:pointer;" class="comReplyParent" id="@crDetails[11]">Reply</a>
+                            }
+                            else if (!Request.IsAuthenticated)
+                            {
+                                <table>
+                                    <tr>
+                                        <td><a class="likecount" style="color:green;">@likes</a></td>
+                                        <td><img src="@Url.Content("~/Content/images/post/like.png")" alt="like" /></td>
+                                        <td><img src="@Url.Content("~/Content/images/post/dislike.png")" alt="dislike" /></td>
+                                        <td><a class="likecount" style="color:red;">@dislikes</a></td>
+                                    </tr>
+                                </table>
+                            }                    
 
                             <table class="commentMenu" id="@crDetails[13]">
                                 @if (User.IsInRole("Admin") || User.IsInRole("Moderator") || childReply.UserName == User.Identity.GetUserName())

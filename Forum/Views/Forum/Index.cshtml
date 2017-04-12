@@ -14,7 +14,7 @@
     </div>
     <div class="mainforumbar">
 
-        @if (User.IsInRole("Admin") || User.IsInRole("Moderator"))
+        @if (User.IsInRole("Admin") || User.IsInRole("Moderator") || User.IsInRole("Member"))
         {
             <div class="adminforumCtrl">
                 <table>

@@ -7,13 +7,13 @@
     var parentReplies = Model.Comment.Replies;
     if (parentReplies != null)
     {
-        foreach (var pReply in parentReplies)
+        foreach (var parentReply in parentReplies)
         {
-            if (pReply.ParentReplyId == null)
+            if (parentReply.ParentReplyId == null)
             {
-                var prDetails = blgCtrl.ReplyDetails(pReply.Id);
-                var likes     = blgCtrl.LikeDislikeCount("replylike", pReply.Id);
-                var dislikes  = blgCtrl.LikeDislikeCount("replydislike", pReply.Id);                
+                var prDetails = blgCtrl.ReplyDetails(parentReply.Id);
+                var likes     = blgCtrl.LikeDislikeCount("replylike", parentReply.Id);
+                var dislikes  = blgCtrl.LikeDislikeCount("replydislike", parentReply.Id);                
 
                 <div class="parentReply" id="@prDetails[4]">
                     <div class="mainreply" id="@prDetails[5]">
@@ -27,29 +27,51 @@
                         <div class="userImage"><img src="@prDetails[1]" height="50" width="50" /></div>
                         <div class="commentUserName"><strong>@prDetails[0]</strong>&nbsp;&nbsp;<span class="cmntTime">-- @prDetails[2]</span></div>
                         <div class="commentDate">@prDetails[3]</div>
-                        @if (pReply.EditTime != null)
-                        {<div class="commentEditDate"><p>Edited: @pReply.EditTime</p></div>}
+                        @if (parentReply.EditTime != null)
+                        {<div class="commentEditDate"><p>Edited: @parentReply.EditTime</p></div>}
 
                         <div class="commentExp" id="@prDetails[7]">
-                            <div class="commentBody">@Html.Raw(pReply.Body)</div>
+                            <div class="commentBody">@Html.Raw(parentReply.Body)</div>
 
-                            @if (!blgCtrl.ReplyDeleteCheck(pReply.Id))
+                            @if (!blgCtrl.ReplyDeleteCheck(parentReply.Id))
                             {
                                 <div class="replySubMenu">
-                                    <a class="likecount" style="color:green;">@likes</a>
-                                    <a href="@Url.Action("UpdateReplyLike", "Forum", new { replyid = pReply.Id,username = User.Identity.GetUserName(), likeordislike = "like",sortorder = ViewBag.CurrentSort })"><img src="@Url.Content("~/Content/images/post/like.png")" alt="like" /></a>
-                                    <a href="@Url.Action("UpdateReplyLike", "Forum", new { replyid = pReply.Id,username = User.Identity.GetUserName(), likeordislike = "dislike",sortorder = ViewBag.CurrentSort })"><img src="@Url.Content("~/Content/images/post/dislike.png")" alt="dislike" /></a>
-                                    <a class="likecount" style="color:red;">@dislikes</a>
-                                    <a style="cursor:pointer;" class="comReplyParent" id="@prDetails[11]">Reply</a>
+                                    @if (Request.IsAuthenticated)
+                                    {
+                                        <a class="likecount" style="color:green;">@likes</a>
+                                        if (parentReply.UserName == User.Identity.GetUserName())
+                                        {
+                                            <a href="@Url.Action("UpdateReplyLike", "Forum", new { replyid = parentReply.Id,username = User.Identity.GetUserName(), likeordislike = "like" })" style="pointer-events:none"><img src="@Url.Content("~/Content/images/post/like.png")" alt="like" /></a>
+                                            <a href="@Url.Action("UpdateReplyLike", "Forum", new { replyid = parentReply.Id,username = User.Identity.GetUserName(), likeordislike = "dislike" })" style="pointer-events:none"><img src="@Url.Content("~/Content/images/post/dislike.png")" alt="dislike" /></a>
+                                        }
+                                        else
+                                        {
+                                            <a href="@Url.Action("UpdateReplyLike", "Forum", new { replyid = parentReply.Id,username = User.Identity.GetUserName(), likeordislike = "like" })"><img src="@Url.Content("~/Content/images/post/like.png")" alt="like" /></a>
+                                            <a href="@Url.Action("UpdateReplyLike", "Forum", new { replyid = parentReply.Id,username = User.Identity.GetUserName(), likeordislike = "dislike" })"><img src="@Url.Content("~/Content/images/post/dislike.png")" alt="dislike" /></a>
+                                        }
+                                        <a class="likecount" style="color:red;">@dislikes</a>
+                                        <a style="cursor:pointer;" class="comReplyParent" id="@prDetails[11]">Reply</a>
+                                    }
+                                    else if (!Request.IsAuthenticated)
+                                    {
+                                        <table>
+                                            <tr>
+                                                <td><a class="likecount" style="color:green;">@likes</a></td>
+                                                <td><img src="@Url.Content("~/Content/images/post/like.png")" alt="like" /></td>
+                                                <td><img src="@Url.Content("~/Content/images/post/dislike.png")" alt="dislike" /></td>
+                                                <td><a class="likecount" style="color:red;">@dislikes</a></td>
+                                            </tr>
+                                        </table>
+                                    }
                              
                                 <table class="commentMenu" id="@prDetails[13]">
-                                @if (User.IsInRole("Admin") || User.IsInRole("Moderator") || pReply.UserName == User.Identity.GetUserName())
+                                @if (User.IsInRole("Admin") || User.IsInRole("Moderator") || parentReply.UserName == User.Identity.GetUserName())
                                     {
                                         <tr>
-                                            <td><a href="@Url.Action("EditReply", "Forum", new { replyid = pReply.Id })" title="Edit"><img src="@Url.Content("~/Content/images/post/edit.png")" alt="edit" /></a></td>
+                                            <td><a href="@Url.Action("EditReply", "Forum", new { replyid = parentReply.Id })" title="Edit"><img src="@Url.Content("~/Content/images/post/edit.png")" alt="edit" /></a></td>
                                             @if (User.IsInRole("Admin") || User.IsInRole("Moderator"))
                                             {
-                                                <td><a href="@Url.Action("DeleteReply", "Forum", new { replyid = pReply.Id })" title="Delete"><img src="@Url.Content("~/Content/images/post/delete.png")" alt="delete" /></a></td>
+                                                <td><a href="@Url.Action("DeleteReply", "Forum", new { replyid = parentReply.Id })" title="Delete"><img src="@Url.Content("~/Content/images/post/delete.png")" alt="delete" /></a></td>
                                             }                                            
                                         </tr>
                                      }                               
@@ -79,7 +101,7 @@
                                                     });
                                                     </script>                                    
                                                     <div class="comTextSub">
-                                                        <input type="hidden" value="@pReply.Id" name="preplyid" id="preplyid" />
+                                                        <input type="hidden" value="@parentReply.Id" name="parentReplyid" id="parentReplyid" />
                                                         <input type="hidden" value="@User.Identity.GetUserName()" name="comUserName" id="comUserName" />
                                                         <input class="comTextBtn" type="submit" value="&#x27a5;" />
                                                     </div>
@@ -95,7 +117,7 @@
                     </div>
                     <div class="commentreplies" id="@prDetails[6]">
                         @{
-                            Model.ChildReplies = blgCtrl.GetChildReplies(pReply);
+                            Model.ChildReplies = blgCtrl.GetChildReplies(parentReply);
                             Html.RenderPartial("ChildReplies", Model.ChildReplies);
                         }
                     </div>

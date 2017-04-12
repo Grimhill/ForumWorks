@@ -85,11 +85,33 @@
                         @if (!forumCtrl.CommentDeleteCheck(comment.Id))
                         {
                             <div class="replySubMenu">
-                                <a class="likecount" style="color:green;">@likes</a>
-                                <a href="@Url.Action("UpdateCommentLike", "Forum", new { commentid = comment.Id, username = User.Identity.GetUserName(), likeordislike = "like", slug = Model.UrlSeo,sortorder = ViewBag.CurrentSort })"><img src="@Url.Content("~/Content/images/post/like.png")" alt="like" /></a>
-                                <a href="@Url.Action("UpdateCommentLike", "Forum", new { commentid = comment.Id, username = User.Identity.GetUserName(), likeordislike = "dislike", slug = Model.UrlSeo,sortorder = ViewBag.CurrentSort})"><img src="@Url.Content("~/Content/images/post/dislike.png")" alt="dislike" /></a>
-                                <a class="likecount" style="color:red;">@dislikes</a>
-                                <a style="cursor:pointer;" class="comReplyParent" id="@cmDetails[11]">Reply</a>
+                                @if (Request.IsAuthenticated)
+                                {
+                                    <a class="likecount" style="color:green;">@likes</a>
+                                    if (comment.UserName == User.Identity.GetUserName())
+                                    {
+                                        <a href="@Url.Action("UpdateCommentLike", "Forum", new { commentid = comment.Id, username = User.Identity.GetUserName(), likeordislike = "like", slug = Model.UrlSeo })" style="pointer-events:none"><img src="@Url.Content("~/Content/images/post/like.png")" alt="like" /></a>
+                                        <a href="@Url.Action("UpdateCommentLike", "Forum", new { commentid = comment.Id, username = User.Identity.GetUserName(), likeordislike = "dislike", slug = Model.UrlSeo })" style="pointer-events:none"><img src="@Url.Content("~/Content/images/post/dislike.png")" alt="dislike" /></a>
+                                    }
+                                    else
+                                    {
+                                        <a href="@Url.Action("UpdateCommentLike", "Forum", new { commentid = comment.Id, username = User.Identity.GetUserName(), likeordislike = "like", slug = Model.UrlSeo })"><img src="@Url.Content("~/Content/images/post/like.png")" alt="like" /></a>
+                                        <a href="@Url.Action("UpdateCommentLike", "Forum", new { commentid = comment.Id, username = User.Identity.GetUserName(), likeordislike = "dislike", slug = Model.UrlSeo })"><img src="@Url.Content("~/Content/images/post/dislike.png")" alt="dislike" /></a>
+                                    }
+                                    <a class="likecount" style="color:red;">@dislikes</a>
+                                    <a style="cursor:pointer;" class="comReplyParent" id="@cmDetails[11]">Reply</a>
+                                }
+                                else if (!Request.IsAuthenticated)
+                                {
+                                    <table>
+                                        <tr>
+                                            <td><a class="likecount" style="color:green;">@likes</a></td>
+                                            <td><img src="@Url.Content("~/Content/images/post/like.png")" alt="like" /></td>
+                                            <td><img src="@Url.Content("~/Content/images/post/dislike.png")" alt="dislike" /></td>
+                                            <td><a class="likecount" style="color:red;">@dislikes</a></td>
+                                        </tr>
+                                    </table>
+                                }
                                                                 
                                 <table class="commentMenu" id="@cmDetails[13]">
                                 @if (User.IsInRole("Admin") || User.IsInRole("Moderator") || comment.UserName == User.Identity.GetUserName())

@@ -198,14 +198,47 @@ textarea {
         font-weight: bold;
         }
 
+/*Post Like & dislike on index page*/
 .postLikes {
     border-radius: 10px;
     margin-top: 10px;
+    margin-right: 0px;
+    margin-left: auto;
 }
 
 .postDislikes {
     border-radius: 10px;
     margin-top: 10px;
+}
+
+.postLikes td#PostLike {
+    text-align:center;
+    font-weight:bold; 
+    color:black; 
+    font-style:italic;
+    width:30px;
+    height:30px;
+    white-space:nowrap;
+    background-image: url('images/post/LikeSmile.png');
+    background-repeat:no-repeat;
+    background-size:30px 30px;
+    background-position:center;
+}
+
+.postLikes td#PostDislike 
+{
+    font-style:oblique;
+    text-align:center;
+    font-weight:bold; 
+    color:black; 
+    font-style:italic;
+    width:30px;
+    height:30px;
+    white-space:nowrap;
+    background-image: url('images/post/DisLikeSmile.png');
+    background-repeat:no-repeat;
+    background-size:30px 30px;
+    background-position:center;
 }
 
 .mainforumview .paging {

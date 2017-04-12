@@ -5,12 +5,14 @@
     ViewBag.Title = Model.Title;
     ViewBag.Description = Model.Meta;
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    ForumController blgCtrl = new ForumController();
 }
 
 @section Scripts
 {
     <script src="~/Scripts/view.js"></script>
- <script type="text/javascript" src="~/Scripts/tinymce/TinyMCEInitFunction.js"></script>
+    <script type="text/javascript" src="~/Scripts/tinymce/TinyMCEInitFunction.js"></script>
 }
 
 
@@ -63,17 +65,25 @@
         <div class="postTitle"><h2>@Model.Title</h2></div>
         <div class="addthis_sharing_toolbox"></div>
         <div class="postVote" id="postVote">
-            <table>
-                <tr><td style="text-align:center; color:green; font-style:italic;">@Model.PostLikes</td></tr>
-                <tr><td><a href="@Url.Action("UpdatePostLike", "Forum", new { slug=Model.UrlSeo, postid = Model.Id, username = User.Identity.GetUserName(), likeordislike = "like", sortorder = ViewBag.CurrentSort })"><img src="@Url.Content("~/Content/images/post/upvote.png")" width="30" height="30" alt="upvote" /></a></td></tr>
-                <tr><td><a href="@Url.Action("UpdatePostLike", "Forum", new { slug=Model.UrlSeo, postid = Model.Id, username = User.Identity.GetUserName(), likeordislike = "dislike", sortorder = ViewBag.CurrentSort})"><img src="@Url.Content("~/Content/images/post/downvote.png")" width="30" height="30" alt="downvote" /></a></td></tr>
-                <tr><td style="text-align:center; color:#b50000; font-style:oblique;">@Model.PostDislikes</td></tr>
-            </table>
+            @if (Request.IsAuthenticated && Model.Author != User.Identity.GetUserName())
+            {
+                <table>
+                    <tr><td style="text-align:center; color:green; font-style:italic;">@Model.PostLikes</td></tr>
+                    <tr><td><a href="@Url.Action("UpdatePostLike", "Forum", new { slug=Model.UrlSeo, postid = Model.Id, username = User.Identity.GetUserName(), likeordislike = "like" })"><img src="@Url.Content("~/Content/images/post/LikeSmile.png")" width="30" height="30" alt="upvote" /></a></td></tr>
+                    <tr><td><a href="@Url.Action("UpdatePostLike", "Forum", new { slug=Model.UrlSeo, postid = Model.Id, username = User.Identity.GetUserName(), likeordislike = "dislike" })"><img src="@Url.Content("~/Content/images/post/DisLikeSmile.png")" width="30" height="30" alt="downvote" /></a></td></tr>
+                    <tr><td style="text-align:center; color:#b50000; font-style:oblique;">@Model.PostDislikes</td></tr>
+                </table>
+            }
+            else if ((Request.IsAuthenticated && Model.Author == User.Identity.GetUserName()) || !Request.IsAuthenticated)
+            {
+                <table>
+                    <tr><td style="text-align:center; color:green; font-style:italic;">@Model.PostLikes</td></tr>
+                    <tr><td><img src="@Url.Content("~/Content/images/post/LikeSmile.png")" width="30" height="30" alt="upvote" /></td></tr>
+                    <tr><td><img src="@Url.Content("~/Content/images/post/DisLikeSmile.png")" width="30" height="30" alt="downvote" /></td></tr>
+                    <tr><td style="text-align:center; color:#b50000; font-style:oblique;">@Model.PostDislikes</td></tr>
+                </table>
+            }            
         </div>
-
-        @{
-            ForumController blgCtrl = new ForumController();
-        }
         <div class="postBody">@Html.Raw(Model.Body)</div>
     </div>
     @{Html.RenderPartial("Comments");}

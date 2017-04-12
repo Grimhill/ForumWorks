@@ -95,7 +95,7 @@ namespace Forum.Controllers
             ViewBag.CurrentSearchCategory = searchCategory;
             ViewBag.CurrentSearchTag      = searchTag;
             ViewBag.DateSortParm          = string.IsNullOrEmpty(sortOrder) ? "date_desc" : "";
-            ViewBag.TitleSortParm = sortOrder == "Title" ? "title_desc" : "Title";
+            ViewBag.TitleSortParm         = sortOrder == "Title" ? "title_desc" : "Title";
 
 
             var posts = _forumFunctions.GetPosts();
@@ -210,7 +210,7 @@ namespace Forum.Controllers
             ViewBag.CurrentSearchCategory = searchCategory;
             ViewBag.CurrentSearchTag      = searchTag;
             ViewBag.DateSortParm          = string.IsNullOrEmpty(sortOrder) ? "date_desc" : "";
-            ViewBag.TitleSortParm = sortOrder == "Title" ? "title_desc" : "Title";
+            ViewBag.TitleSortParm         = sortOrder == "Title" ? "title_desc" : "Title";
 
             var posts = _forumFunctions.GetPosts();
             foreach (var post in posts)
@@ -347,7 +347,8 @@ namespace Forum.Controllers
         [ValidateAntiForgeryToken]
         [ValidateInput(false)]
         public ActionResult AddNewPost(PostViewModel model)
-        {            
+        {
+            Random rndId = new Random(); 
             var strCurrentUserId = User.Identity.GetUserId();
             var post = new Post
             {                
@@ -359,7 +360,7 @@ namespace Forum.Controllers
                 Title            = model.Title,
                 Author           = _forumFunctions.GetUserById(strCurrentUserId),
                 //Author           = User.Identity.GetUserName(), //another variant
-                UrlSeo           = model.Title.Replace(" ", "-") + model.Id //unique urlseo for slug                
+                UrlSeo           = model.Title.Replace(" ", "-") + + rndId.Next(100) //unique urlseo for slug                
             };
             _forumFunctions.AddNewPost(post);
             return RedirectToAction("EditPost", "Forum", new { slug = post.UrlSeo });            
@@ -412,10 +413,10 @@ namespace Forum.Controllers
             return RedirectToAction("Index", "Forum");
         }
 
-        public ActionResult UpdatePostLike(int postid, string slug, string username, string likeordislike, string sortorder)
+        public ActionResult UpdatePostLike(int postid, string slug, string username, string likeordislike)
         {
             _forumFunctions.UpdatePostLike(postid, username, likeordislike);
-            return RedirectToAction("Post", new { slug = slug, sortorder = sortorder });
+            return RedirectToAction("Post", new { slug = slug });
         }
         #endregion Post
 
@@ -944,23 +945,19 @@ namespace Forum.Controllers
             return RedirectToAction("Post", new { slug = _forumFunctions.GetPosts().Where(x => x.Id == postid).FirstOrDefault().UrlSeo });
         }
 
-        public ActionResult UpdateCommentLike(int commentid, string username, string likeordislike, string slug, string sortorder)
+        public ActionResult UpdateCommentLike(int commentid, string username, string likeordislike, string slug)
         {
-            if (username != null)
-            {
-                _forumFunctions.UpdateCommentLike(commentid, username, likeordislike);
-            }
-            return RedirectToAction("Post", new { slug = slug, sortorder = sortorder });
+            _forumFunctions.UpdateCommentLike(commentid, username, likeordislike);
+
+            return RedirectToAction("Post", new { slug = slug });
         }
 
-        public ActionResult UpdateReplyLike(int replyid, string username, string likeordislike, string sortorder)
+        public ActionResult UpdateReplyLike(int replyid, string username, string likeordislike)
         {
-            if (username != null)
-            {
-                _forumFunctions.UpdateReplyLike(replyid, username, likeordislike);
-            }
+            _forumFunctions.UpdateReplyLike(replyid, username, likeordislike);
+
             var slug = _forumFunctions.GetPostByReply(replyid).UrlSeo;
-            return RedirectToAction("Post", "Forum", new { slug = slug, sortorder = sortorder });
+            return RedirectToAction("Post", "Forum", new { slug = slug });
         }
         #endregion comments
 

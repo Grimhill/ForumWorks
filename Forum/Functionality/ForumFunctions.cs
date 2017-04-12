@@ -445,6 +445,7 @@ namespace Forum.Functionality
             Save();
         }
 
+        //looking hard, and don`t if work directly for 100%, but i like it :3
         public void DeleteReplyWithChildren(int replyid)
         {
             var reply = _context.Replies.Where(x => x.Id == replyid).FirstOrDefault();
@@ -470,7 +471,6 @@ namespace Forum.Functionality
                 }
             }
 
-            //little variant. Varian above looking hard, and don`t if work directly for 100%, but i like it :3
             //var allChildren = _context.Replies.Where(x => x.CommentId == reply.CommentId && x.ParentReplyId >= reply.Id).ToList();
             //_context.Replies.RemoveRange(allChildren);
             Save();

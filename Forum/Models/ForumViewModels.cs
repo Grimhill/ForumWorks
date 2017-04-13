@@ -16,6 +16,7 @@ namespace Forum.Models
         public DateTime? Modified         { get; set; }
         public int       PostDislikes     { get; set; }
         public int       PostLikes        { get; set; }
+        public int       LikeCount        { get; set; }
         public int       TotalPosts       { get; set; } 
                
         public string    ShortDescription { get; set; }

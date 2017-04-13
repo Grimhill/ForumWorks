@@ -95,7 +95,7 @@ namespace Forum.Controllers
             ViewBag.CurrentSearchCategory = searchCategory;
             ViewBag.CurrentSearchTag      = searchTag;
             ViewBag.DateSortParm          = string.IsNullOrEmpty(sortOrder) ? "date_desc" : "";
-            ViewBag.TitleSortParm         = sortOrder == "Title" ? "title_desc" : "Title";
+            ViewBag.BestSortParm          = sortOrder == "Best" ? "All" : "Best";
 
 
             var posts = _forumFunctions.GetPosts();
@@ -117,6 +117,7 @@ namespace Forum.Controllers
                     PostModifedBy    = post.PostModifedBy,
                     PostLikes        = likes,
                     PostDislikes     = dislikes,
+                    LikeCount        = post.LikeCount,
                     PostCategories   = postCategories,
                     PostTags         = postTags,
                     UrlSlug          = post.UrlSeo });
@@ -180,11 +181,11 @@ namespace Forum.Controllers
                 case "date_desc":
                     postList = postList.OrderByDescending(x => x.PostedOn).ToList();
                     break;
-                case "Title":
-                    postList = postList.OrderBy(x => x.Title).ToList();
+                case "Best":
+                    postList = postList.Where(x => x.LikeCount >= 2).OrderByDescending(x => x.PostedOn).ToList();
                     break;
-                case "title_desc":
-                    postList = postList.OrderByDescending(x => x.Title).ToList();
+                case "All":
+                    postList = postList.OrderBy(x => x.PostedOn).ToList();
                     break;
                 default:
                     postList = postList.OrderBy(x => x.PostedOn).ToList();

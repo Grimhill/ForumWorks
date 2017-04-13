@@ -34,7 +34,7 @@
                     <input class="submitBtnLink" type="submit" value="Date" />
                 }
             </th>
-            <th class="tableTitle">
+            <th class="tableBest">
                 @using (Html.BeginForm("Index", "Forum", FormMethod.Get))
                 {
                     if (ViewBag.CurrentSearchCategory != null)
@@ -52,8 +52,8 @@
                         }
                     }
                     <input type="hidden" name="searchString" value="@ViewBag.CurrentSearchString" />
-                    <input type="hidden" name="sortOrder" value="@ViewBag.TitleSortParm" />
-                    <input class="submitBtnLink" type="submit" value="Title" />
+                    <input type="hidden" name="sortOrder" value="@ViewBag.BestSortParm" />
+                    <input class="submitBtnLink" type="submit" value="Best||All" />
                 }
             </th>
         </tr>

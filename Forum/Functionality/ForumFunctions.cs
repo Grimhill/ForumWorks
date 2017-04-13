@@ -134,7 +134,7 @@ namespace Forum.Functionality
         //individual table - we can obtain info about users clicked like\dislike
         public void UpdatePostLike(int postid, string username, string likeordislike)
         {
-            //check that one user cant like or dislike more than one time
+            //enable user to change his vote 
             var postLike = _context.PostLikes.Where(x => x.Username == username && x.PostId == postid).FirstOrDefault();
             if (postLike != null)
             {
@@ -153,7 +153,7 @@ namespace Forum.Functionality
                 }
                 if (postLike.Like == false && postLike.Dislike == false) _context.PostLikes.Remove(postLike);
             }
-            else
+            else //if user vote at first
             {
                 switch (likeordislike)
                 {
@@ -312,7 +312,7 @@ namespace Forum.Functionality
         //individual tables for likes - in future we can obtain ifno about users, who turn like\dislike
         public void UpdateCommentLike(int commentid, string username, string likeordislike)
         {
-            //one user cant like or dislike more than one time and allow to change his vote
+            //enable user to change his vote 
             var commentLike = _context.CommentLikes.Where(x => x.Username == username && x.CommentId == commentid).FirstOrDefault();
             if (commentLike != null)
             {
@@ -331,7 +331,7 @@ namespace Forum.Functionality
                 }
                 if (commentLike.Like == false && commentLike.Dislike == false) _context.CommentLikes.Remove(commentLike);
             }
-            else
+            else //if user vote at first
             {
                 switch (likeordislike)
                 {
@@ -354,7 +354,7 @@ namespace Forum.Functionality
 
         public void UpdateReplyLike(int replyid, string username, string likeordislike)
         {
-            //one user cant like or dislike more than one time and allow to change his vote
+            //enable user to change his vote 
             var replyLike = _context.ReplyLikes.Where(x => x.Username == username && x.ReplyId == replyid).FirstOrDefault();
             if (replyLike != null)
             {
@@ -373,7 +373,7 @@ namespace Forum.Functionality
                 }
                 if (replyLike.Like == false && replyLike.Dislike == false) _context.ReplyLikes.Remove(replyLike);
             }
-            else
+            else //if user vote at first
             {
                 switch (likeordislike)
                 {

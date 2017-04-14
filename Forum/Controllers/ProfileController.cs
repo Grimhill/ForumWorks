@@ -106,13 +106,7 @@ namespace Forum.Controllers
             ProfileViewModel model = new ProfileViewModel
             {
                 UserName            = user.UserName,
-                UserRole            = _dbhelpers.CheckUserRole(user.UserName),// GetUserRole(user.UserName),
-                FirstName           = user.FirstName,
-                LastName            = user.LastName,
-                Country             = user.Country,
-                City                = user.City,
-                Gender              = user.Gender,
-                BirthDate           = user.BirthDate,
+                UserRole            = _dbhelpers.CheckUserRole(user.UserName),// GetUserRole(user.UserName),                
                 YourSelfDescription = user.YourSelfDescription,
                 Registered          = user.JoinDate,
                 LastLogin           = user.LastLoginDate,

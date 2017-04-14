@@ -321,7 +321,9 @@ namespace Forum.Controllers
         {
             ViewBag.StatusMessage =
                 message == ManageMessageId.RemoveLoginSuccess ? "The external login was removed."
-                : message == ManageMessageId.Error ? "An error has occurred."
+                : "";
+            ViewBag.ErrorMessage =
+                message == ManageMessageId.Error ? "An error has occurred. Or you didn registered with such login provider"
                 : "";
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             if (user == null)

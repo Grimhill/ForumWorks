@@ -147,20 +147,23 @@
                             document.getElementById('cke_Extend_textInput_ID').value = value;
                         }
                     }
-                </script>
+               </script>
             </div>
         </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.isPublished, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">                
-                @Html.EditorFor(model => model.isPublished, new { @Value = Model.isPublished })
-                @*<div class="checkbox">                    
-                    @Html.EditorFor(model => model.isPublished, new { @Value = Model.isPublished})
-                    @Html.ValidationMessageFor(model => model.isPublished, "", new { @class = "text-danger" })
-                </div>*@
+        @if (User.IsInRole("Admin") || User.IsInRole("Moderator"))
+        {
+            <div class="form-group">
+                @Html.LabelFor(model => model.isPublished, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.isPublished, new { @Value = Model.isPublished })
+                    @*<div class="checkbox">
+                            @Html.EditorFor(model => model.isPublished, new { @Value = Model.isPublished})
+                            @Html.ValidationMessageFor(model => model.isPublished, "", new { @class = "text-danger" })
+                        </div>*@
+                </div>
             </div>
-        </div>
+        }
 
         <div class="form-group">
             @Html.Label("Action", htmlAttributes: new { @class = "control-label col-md-2" })

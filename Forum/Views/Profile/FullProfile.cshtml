@@ -7,49 +7,101 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>FullProfile</h2>
+<h2 style="text-align:center">FullProfile</h2>
 
-<div class="profile">
+<style>
+    td#maint2 {
+        width:100px;       
+    }
+    td#maint1 {
+        width:90px;       
+    }
+    table#inmate tr {
+        height:25px;
+    }
+</style>
 
-    <dl>
-        <dt></dt>
-        <dd>
-            @if (Model.UserName != null)
-            {
-                var pathToFile = "~/Content/images/profile/" + Model.UserName + "/" + Model.UserName + ".png";
-                if (!File.Exists(System.Web.Hosting.HostingEnvironment.MapPath(pathToFile)))
+<div class="ProfileContainer">
+    <table>
+        <tr>
+            <td>
+                @if (Model.UserName != null)
                 {
-                    pathToFile = "~/Content/images/profile/Default.png";
+                    var pathToFile = "~/Content/images/profile/" + Model.UserName + "/" + Model.UserName + ".png";
+                    if (!File.Exists(System.Web.Hosting.HostingEnvironment.MapPath(pathToFile)))
+                    {
+                        pathToFile = "~/Content/images/profile/Default.png";
+                    }
+                    var imgUrl = Url.Content(pathToFile) + "?time=" + DateTime.Now.ToString();
+                    <div class="accimg">
+                        <img src="@imgUrl" height="200" width="200" />
+                    </div>
                 }
-                var imgUrl = Url.Content(pathToFile) + "?time=" + DateTime.Now.ToString();
-                <div class="accimg">
-                    <img src="@imgUrl" height="250" width="250" />
-                </div>
-            }
-        <!--Check if data not null and show-->
-        </dd>
-        <dt>UserName: </dt>
-        <dd>@Model.UserName</dd>
-        <dt>RegisterDate: </dt>
-        <dd>@Model.Registered</dd>
-        <dt>LastLogin: </dt>
-        <dd>@Model.LastLogin</dd>
-        @if (@Model.UserName != null)
-        {
-            <dt>FisrName: </dt>
-            <dd>@Model.FirstName</dd>
-        }        
-        <dt>LastName: </dt>
-        <dd>@Model.LastName</dd>
-        <dt>MemberGroup: </dt>
-        <dd>@Model.UserRole</dd>
-        <dt>Country: </dt>
-        <dd>@Model.Country</dd>
-        <dt>City: </dt>
-        <dd>@Model.City</dd>
-        <dt>Gender: </dt>
-        <dd>@Model.Gender</dd>
-        <dt>BirthDate: </dt>
-        <dd>@Model.BirthDate</dd>
-    </dl>    
+            </td>
+            <td style="width:5px"></td>
+            <td valign="top">
+                <table id="inmate">
+                    <tr>
+                        <td id="maint1">UserName: </td>                        
+                        <td>@Model.UserName</td>
+                        <td style="width:5px"></td>
+                        <td id="maint2">MemberGroup: </td>                        
+                        <td>@Model.UserRole</td>
+                    </tr>
+                    <tr>
+                        <td id="maint1">FirstName: </td>                        
+                        @if (@Model.FirstName != null)
+                        {<td>@Model.FirstName</td> }
+                        else {<td></td>}
+                        <td style="width:5px"></td>                        
+                        <td id="maint2">LasttName: </td>                        
+                        @if (@Model.LastName != null)
+                        {<td>@Model.LastName</td> }
+                        else {<td></td>} 
+                    </tr>
+                    <tr>
+                        <td id="maint1">Country: </td>                        
+                        @if (@Model.Country != null)
+                        { <td>@Model.Country</td> }
+                        else {<td></td>}
+                        <td style="width:5px"></td>
+                        <td id="maint2">City: </td>                        
+                        @if (@Model.City != null)
+                        {<td>@Model.City</td> }
+                        else {<td></td>}
+                    </tr>
+                    <tr>
+                        <td id="maint1">Gender: </td>                        
+                        @if (@Model.Gender != null)
+                        { <td>@Model.Gender</td> }
+                        else {<td></td>}
+                        <td style="width:5px"></td>
+                        <td id="maint2">BirthDate: </td>                        
+                        @if (@Model.BirthDate != null)
+                        {<td>@Model.BirthDate</td> }
+                        else {<td></td>}
+                    </tr>
+                    <tr>
+                        <td id="maint1">Registered: </td>                        
+                        <td >@Model.Registered</td>
+                        <td style="width:5px"></td>
+                        <td id="maint2">LastLoginDate: </td>                       
+                        <td >@Model.LastLogin</td>
+                    </tr>                    
+                    <tr>
+                        <td id="maint1">OnlineStatus: </td>                        
+                        @if (Model.OnlineStatus)
+                        {<td>Online</td>}
+                        else {<td>Offline</td>}
+                    </tr>
+                    <tr>
+                        <td>About YourSelf: </td>
+                        @if (@Model.YourSelfDescription != null)
+                        {<td colspan="3">@Model.YourSelfDescription</td> }
+                        else {<td colspan="3"></td>}
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>      
 </div>

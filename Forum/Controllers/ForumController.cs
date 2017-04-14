@@ -382,7 +382,8 @@ namespace Forum.Controllers
         public ActionResult EditPost(PostViewModel model)
         {
             var strCurrentUserId  = User.Identity.GetUserId(); //get current user id
-            var post              = _forumFunctions.GetPostById(model.Id);
+            var postId = _forumFunctions.GetPostIdBySlug(model.UrlSeo);
+            var post = _forumFunctions.GetPostById(postId);
             
             post.Body             = model.Body;
             post.Title            = model.Title;

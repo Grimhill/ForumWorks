@@ -8,7 +8,7 @@ namespace Forum.Models
 {
     public class ProfileViewModel
     {
-        [Display(Name = "First Name")]
+        [Display(Name = "UserName")]
         public string UserName { get; set; }
 
         public string UserRole { get; set; }

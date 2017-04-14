@@ -2,49 +2,53 @@
 @using System.Web.ApplicationServices
 @using Microsoft.AspNet.Identity
 
-<div class="modal-body"> 
-    
-    <dl>
-        <dt></dt>
-        <dd>
-            @if (Model.UserName != null)
-            {
-                var pathToFile = "~/Content/images/profile/" + Model.UserName + "/" + Model.UserName + ".png";
-                if (!File.Exists(System.Web.Hosting.HostingEnvironment.MapPath(pathToFile)))
-                {
-                    pathToFile = "~/Content/images/profile/Default.png";
-                }
-                var imgUrl = Url.Content(pathToFile) + "?time=" + DateTime.Now.ToString();
-                <div class="accimg">
-                    <img src="@imgUrl" height="250" width="250" />
-                </div>
-            }
-        </dd>
-        <dt>UserName: </dt>
-        <dd>@Model.UserName</dd>
-        <dt>FisrName: </dt>
-        <dd>@Model.FirstName</dd>
-        <dt>LastName: </dt>
-        <dd>@Model.LastName</dd>
-        <dt>MmberGroup: </dt>
-        <dd>@Model.UserRole</dd>
-        <dt>Online status: </dt>
-        @if (Model.OnlineStatus)
-        {
-            <dd>Online</dd>
-        }
-        else
-        {<dd>Offline</dd> }        
-    </dl>
+<div class="modal-body" style="width:500px;margin:auto">
+    <div class="alert alert-warning">
+        <table>
+            <tr>
+                <td>
+                    @if (Model.UserName != null)
+                    {
+                        var pathToFile = "~/Content/images/profile/" + Model.UserName + "/" + Model.UserName + ".png";
+                        if (!File.Exists(System.Web.Hosting.HostingEnvironment.MapPath(pathToFile)))
+                        {
+                            pathToFile = "~/Content/images/profile/Default.png";
+                        }
+                        var imgUrl = Url.Content(pathToFile) + "?time=" + DateTime.Now.ToString();
+                        <div class="accimg">
+                            <img src="@imgUrl" height="150" width="150" />
+                        </div>
+                    }
+                </td>
+                <td></td>
+                <td valign="top">
+                    <table>
+                        <tr><td>UserName: </td><td style="width:10px"></td><td>@Model.UserName</td></tr>
+                        <tr><td>MemberGroup: </td><td style="width:10px"></td><td>@Model.UserRole</td></tr>
+                        <tr><td>JoinDate: </td><td style="width:10px"></td><td>@Model.Registered</td></tr>
+                        <tr><td>LastLoginDate: </td><td style="width:10px"></td><td>@Model.LastLogin</td></tr>
+                        <tr>
+                            <td>OnlineStatus: </td>
+                            <td style="width:10px"></td>
+                            @if (Model.OnlineStatus)
+                            {<td>Online</td>}
+                            else
+                            {<td>Offline</td>}
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
 
         <div class="row">
             &nbsp;
         </div>
-        <div class="row">
+        <div class="row" style="text-align:center">
             <div class="col-md-4 col-md-offset-4">
                 <button type="submit" id="approve-btn" class="btn btn-danger">Close</button>
             </div>
         </div>
+    </div>
 </div>
 
 

@@ -21,13 +21,15 @@ namespace Forum.Functionality
         IList<Category> GetCategories();
         #endregion
 
-        #region Post, category, tag
+        #region Category, tag
         Post GetPostById(int postid);
         int  GetPostIdBySlug(string slug);
         void AddNewPost(Post post);
         void DeletePost(int postid);
         void UpdatePostLike(int postid, string username, string likeordislike);
+        #endregion 
 
+        #region Category, tag
         void AddPostCategories(PostCategory postCategory);
         void RemovePostCategories(int postid, int categoryid);
         void RemoveCategoryFromPost(int postid, string catName);
@@ -63,7 +65,7 @@ namespace Forum.Functionality
         void DeleteReplyWithChildren(int replyid);
         #endregion
 
-        #region some additional helpers
+        #region Helpers
         string GetUserById(string id);
         string GetUserIdByUserName(string userName);
         string GetUserMalilByUserName(string userName);

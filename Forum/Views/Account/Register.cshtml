@@ -84,7 +84,9 @@
         <div class="form-group">
             @Html.LabelFor(model => model.YourSelfDescription, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextAreaFor(model => model.YourSelfDescription, 5, 45, new { @class = "form-control" })                
+                @Html.TextAreaFor(model => model.YourSelfDescription, 5, 45, new { @class = "form-control", @id = "area" })
+                <span id="sArea">0 of 200 characters used</span>
+                <script type="text/javascript" src="~/Scripts/LittleHelpers/TextLenght.js"></script>                
             </div>
         </div>
 

@@ -8,13 +8,17 @@
 @using (Html.BeginForm("DeletePost", "Forum", FormMethod.Post, new { @role = "form" }))
 {
     @Html.AntiForgeryToken()
-    <div class="delacccont">
+    <div class="delacccont" style="text-align:center">
         <div class="delaccgrp">
-            <div class="delacclbl" style="text-align:center;">Are you sure?</div>
+            <div class="delacclbl">Are you sure?</div>
         </div>
-        <div class="delaccgrp">
+        <br />
+        <div style="display:inline-block">
             <input type="hidden" value="@Model.Id" name="postId" />
             <input type="submit" value="Delete Post" class="btn btn-default delaccbtn" />
+        </div>
+        <div style="display:inline-block">
+            <input type="button" value="Cancel" onclick="location.href='@Request.UrlReferrer.ToString()'" class="btn btn-default" />
         </div>
     </div>
 }

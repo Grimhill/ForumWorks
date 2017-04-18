@@ -44,7 +44,9 @@
                                 }
                                 else
                                 {
-                                    @: &nbsp;
+                                    <div>
+                                        <p>You can remove this login provider after setting password in Manage/ChangePasswod</p>
+                                    </div>
                                 }
                             </td>
                         </tr>
@@ -68,4 +70,7 @@
             }
         }
     }
+    <div style="text-align:center">
+        <input type="button" value="Back" onclick="location.href='@Request.UrlReferrer.ToString()'" class="btn btn-default" />
+    </div>
 }

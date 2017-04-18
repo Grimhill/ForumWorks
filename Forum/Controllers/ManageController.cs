@@ -323,7 +323,7 @@ namespace Forum.Controllers
                 message == ManageMessageId.RemoveLoginSuccess ? "The external login was removed."
                 : "";
             ViewBag.ErrorMessage =
-                message == ManageMessageId.Error ? "An error has occurred. Or you didn registered with such login provider"
+                message == ManageMessageId.Error ? "An error has occurred. Or Such provider has been already in use (social page or goole mail)"
                 : "";
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             if (user == null)

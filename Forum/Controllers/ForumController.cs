@@ -1075,7 +1075,7 @@ namespace Forum.Controllers
         //obtain unique named Id for view elemets in comment replies section
         public string[] ReplyDetails(int replyId)
         {
-            string[] replyDetails = new string[17];
+            string[] replyDetails = new string[14];
             var reply = _forumFunctions.GetReplyById(replyId);
 
             replyDetails[0] = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(reply.UserName);//username            

@@ -87,6 +87,8 @@ namespace Forum.Models
         [Display(Name = "BirthDate (MM/dd/yyyy)")]
         public DateTime? BirthDate { get; set; }
 
+        [StringLength(200, ErrorMessage = "There is more than 200 characters")]
+        [DataType(DataType.MultilineText)]
         [Display(Name = "About Yourself")]
         public string YourSelfDescription { get; set; }
     }

@@ -18,7 +18,7 @@ namespace Forum.Functionality
             _userContext = userContext;
         }
 
-        #region 1
+        #region Lists
         public IList<Post> GetPosts()
         {
             return _context.Posts.ToList();

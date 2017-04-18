@@ -3,7 +3,7 @@
 @using Microsoft.AspNet.Identity
 
 @{
-    ForumController blgCtrl = new ForumController();
+    ForumController forumCtrl = new ForumController();
     var parentReplies = Model.Comment.Replies;
     if (parentReplies != null)
     {
@@ -11,9 +11,9 @@
         {
             if (parentReply.ParentReplyId == null)
             {
-                var prDetails = blgCtrl.ReplyDetails(parentReply.Id);
-                var likes     = blgCtrl.LikeDislikeCount("replylike", parentReply.Id);
-                var dislikes  = blgCtrl.LikeDislikeCount("replydislike", parentReply.Id);                
+                var prDetails = forumCtrl.ReplyDetails(parentReply.Id);
+                var likes     = forumCtrl.LikeDislikeCount("replylike", parentReply.Id);
+                var dislikes  = forumCtrl.LikeDislikeCount("replydislike", parentReply.Id);                
 
                 <div class="parentReply" id="@prDetails[4]">
                     <div class="mainreply" id="@prDetails[5]">
@@ -27,13 +27,13 @@
                         <div class="userImage"><img src="@prDetails[1]" height="50" width="50" /></div>
                         <div class="commentUserName"><strong>@prDetails[0]</strong>&nbsp;&nbsp;<span class="cmntTime">-- @prDetails[2]</span></div>
                         <div class="commentDate">@prDetails[3]</div>
-                        @if (parentReply.EditTime != null)
-                        {<div class="commentEditDate"><p>Edited: @parentReply.EditTime</p></div>}
+                        @if (parentReply.EditTime != null){<div class="commentEditDate"><p>Edited: @parentReply.EditTime</p></div>}
+                        @if (parentReply.EditedBy != null){<div class="commentEditedBy"><p>EditedBy: @parentReply.EditedBy</p></div>}
 
                         <div class="commentExp" id="@prDetails[7]">
                             <div class="commentBody">@Html.Raw(parentReply.Body)</div>
 
-                            @if (!blgCtrl.ReplyDeleteCheck(parentReply.Id))
+                            @if (!forumCtrl.ReplyDeleteCheck(parentReply.Id))
                             {
                                 <div class="replySubMenu">
                                     @if (Request.IsAuthenticated)
@@ -117,7 +117,7 @@
                     </div>
                     <div class="commentreplies" id="@prDetails[6]">
                         @{
-                            Model.ChildReplies = blgCtrl.GetChildReplies(parentReply);
+                            Model.ChildReplies = forumCtrl.GetChildReplies(parentReply);
                             Html.RenderPartial("ChildReplies", Model.ChildReplies);
                         }
                     </div>

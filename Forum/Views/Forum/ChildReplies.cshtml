@@ -23,8 +23,8 @@
                 <div class="userImage"><img src="@crDetails[1]" height="50" width="50" /></div>
                 <div class="commentUserName"><strong>@crDetails[0]</strong>&nbsp;&nbsp;<span class="cmntTime">-- @crDetails[2]</span></div>
                 <div class="commentDate">@crDetails[3]</div>
-                @if (childReply.EditTime != null)
-                {<div class="commentEditDate"><p>Edited: @childReply.EditTime</p></div>}
+                @if (childReply.EditTime != null){<div class="commentEditDate"><p>Edited: @childReply.EditTime</p></div>}
+                @if (childReply.EditedBy != null){<div class="commentEditedBy"><p>EditedBy: @childReply.EditedBy</p></div>}
 
                 <div class="commentExp" id="@crDetails[7]">
                     <div class="commentBody">@Html.Raw(childReply.Body)</div>

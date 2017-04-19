@@ -203,6 +203,8 @@
     <Compile Include="Functionality\DbHelpers.cs" />
     <Compile Include="Functionality\ForumFunctions.cs" />
     <Compile Include="Functionality\IForumFunctions.cs" />
+    <Compile Include="Functionality\IProfileFunctions.cs" />
+    <Compile Include="Functionality\ProfileFunctions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

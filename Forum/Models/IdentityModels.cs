@@ -66,6 +66,8 @@ namespace Forum.Models
         public DbSet<CommentLike>  CommentLikes   { get; set; }
         public DbSet<ReplyLike>    ReplyLikes     { get; set; }
 
+        public DbSet<CommentWall> CommenstWall { get; set; }
+        public DbSet<CommentWallReply> CommentWallReplies { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();

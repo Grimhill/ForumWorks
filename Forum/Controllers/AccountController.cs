@@ -572,7 +572,7 @@ namespace Forum.Controllers
             if (Url.IsLocalUrl(returnUrl))
             {
                 //do something here in future will be added more values
-                if(returnUrl.StartsWith("/Account") || returnUrl.StartsWith("/Manage"))
+                if (returnUrl.StartsWith("/Account") || returnUrl.StartsWith("/Manage") || returnUrl.StartsWith("/Admin"))
                 { return RedirectToAction("Index", "Home"); }
                 return Redirect(returnUrl);
             }

@@ -39,5 +39,68 @@ namespace Forum.Models
         public DateTime LastLogin { get; set; }
 
         public bool OnlineStatus { get; set; }
+
+        public IList<CommentWall> CommentWall { get; set; }
+       
+        public string ProfileUrl { get; set; }
+    }
+
+    public class CommentWallViewModel
+    {
+        public CommentWallViewModel() { }
+        public CommentWallViewModel(CommentWall commentWall)
+        {
+            CommentWall = commentWall;
+        }
+
+        public int Id             { get; set; }
+        public int? ParentReplyId { get; set; }
+        public string Body        { get; set; }
+        public string UserName    { get; set; }
+        public DateTime DateTime  { get; set; }
+
+        public CommentWall CommentWall { get; set; }
+        public IList<CommentWallViewModel> WallChildReplies { get; set; }
+    }
+
+    public class CommentWall
+    {
+        [Key]
+        public int Id            { get; set; }
+        public string ProfileId  { get; set; } //UserName profile owner
+        public string UserName   { get; set; }
+        public DateTime DateTime { get; set; }
+        [Required]
+        public string Body { get; set; }
+
+        public ICollection<CommentWallReply> CommentWallReplies { get; set; }
+    }
+
+    public class CommentWallReply
+    {
+        [Key]
+        public int Id             { get; set; }
+        public string ProfileId   { get; set; } //UserName profile owner
+        public string UserName    { get; set; }
+        public DateTime DateTime  { get; set; }
+        [Required]
+        public string Body        { get; set; }
+
+        public int CommentId      { get; set; }
+        public int? ParentReplyId { get; set; }
+
+        public CommentWall CommentWall { get; set; }
+    }
+
+    public class PrivateMessages
+    {
+        [Key]
+        public int Id             { get; set; }
+        public int UserReseiverId { get; set; }
+        public int UserSenderId   { get; set; }
+        public string Title       { get; set; }
+        public string Body        { get; set; }
+        public DateTime DateTime  { get; set; }
+        bool state                { get; set; } //executed or not
     }
 }

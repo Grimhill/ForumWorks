@@ -71,6 +71,6 @@
         }
     }
     <div style="text-align:center">
-        <input type="button" value="Back" onclick="location.href='@Request.UrlReferrer.ToString()'" class="btn btn-default" />
+        <input type="button" value="Back" onclick="location.href='@Url.Action("Index", "Manage")'" class="btn btn-default" />
     </div>
 }

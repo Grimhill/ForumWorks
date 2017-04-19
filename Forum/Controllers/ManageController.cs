@@ -6,12 +6,15 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using Forum.Models;
 using System.Web.Hosting;
 using System.IO;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Web.Security;
+
+using Forum.Models;
+using Forum.Functionality;
+using Forum.Controllers;
 
 namespace Forum.Controllers
 {
@@ -89,6 +92,15 @@ namespace Forum.Controllers
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
                 LastLogin         = user.LastLoginDate                
             };
+
+            ProfileViewModel modeliko = new ProfileViewModel
+            {
+                UserName = user.UserName,
+            };
+            var ProfileUrl = Request.RawUrl;
+            ProfileController profCtrl = new ProfileController();
+            //profCtrl.Comments(modeliko, ProfileUrl);
+            //new ProfileController().Comments(modeliko, ProfileUrl);
             return View(model);
         }
         #endregion
